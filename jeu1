@@ -1,0 +1,97 @@
+#jeu N°1
+import pygame, sys
+import time
+from annexe import *
+from random import randint
+from pygame.locals import *
+
+HAUTEUR = 540
+LARGEUR = 900
+PAUSE = 0.05
+
+class Balle:
+    def __init__(self, abscisse, ordonnee, couleur, deplacement_abscisse, deplacement_ordonnee, rayon):
+        self.x = abscisse
+        self.y = ordonnee
+        self.couleur = couleur
+        self.dx = deplacement_abscisse
+        self.dy = deplacement_ordonnee
+        self.rayon = rayon
+        self.alive = True
+
+def mangeballe(nbrballes = 10):
+    regle1()
+    multi = []
+    for _ in range(nbrballes):
+        bal = Balle(randint(10, LARGEUR - 10), randint(10, HAUTEUR - 10), (randint(0, 255), randint(0, 255), randint(0, 255)), randint(-25, 25), randint(-25, 25), randint(8, 15))
+        multi.append(bal)
+    alldead = False
+    vitesse = 50
+    pygame.display.init()
+    fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
+    fenetre.fill([20,28,85])
+    maballe = Balle(LARGEUR/2, HAUTEUR/2, (52, 21, 250), None, None, 15)
+    pygame.key.set_repeat(vitesse)
+    
+    while len(multi) > 0:
+
+        for balle in multi:
+            pygame.draw.circle(fenetre,(20,28,85),(balle.x, balle.y), balle.rayon) #gomme
+            balle.x += balle.dx
+            balle.y += balle.dy
+            pygame.draw.circle(fenetre, balle.couleur, (balle.x, balle.y), balle.rayon)#dessine les balles
+        pygame.draw.circle(fenetre,(20,28,85),(maballe.x, maballe.y), maballe.rayon) #gomme maballe
+
+        for event in pygame.event.get() :    
+            if event.type == KEYDOWN:
+
+                if event.key == K_DOWN or event.key == K_s:
+                    if maballe.y < HAUTEUR - 11:
+                        maballe.y += 10
+
+                if event.key == K_UP or event.key == K_z:
+                    if maballe.y > 11:
+                        maballe.y -= 10
+                
+                if event.key == K_RIGHT or event.key == K_d: 
+                    if maballe.x < LARGEUR - 11:
+                        maballe.x += 10
+
+                if event.key == K_LEFT or event.key == K_q: 
+                    if maballe.x > 11:
+                        maballe.x -= 10
+        
+        pygame.draw.circle(fenetre, (52, 21, 250), (maballe.x, maballe.y), maballe.rayon)#dessine la balle joueur
+
+        for m in range(len(multi)):
+            if ((maballe.x - multi[m].x)**2 + (maballe.y - multi[m].y)**2)**0.5 < maballe.rayon+multi[m].rayon:
+                maballe.rayon += multi[m].rayon // 2 #grossis
+                vitesse += multi[m].rayon #devient lent
+                pygame.key.set_repeat(vitesse)
+                multi[m].alive = False
+        for balle in multi:
+            if not balle.alive:
+                pygame.draw.circle(fenetre,(20,28,85),(balle.x, balle.y), balle.rayon) #supprime la balle
+                multi.remove(balle)
+        for m in range(len(multi)):
+            for n in range(len(multi)):
+                if n < m:
+                    if ((multi[n].x - multi[m].x)**2 + (multi[n].y - multi[m].y)**2)**0.5 < multi[n].rayon+multi[n].rayon: #collisions
+                        multi[m].dx, multi[n].dx, multi[m].dy, multi[n].dy = multi[n].dx, multi[m].dx, multi[n].dy, multi[m].dy #changement de direction
+ 
+        for ball in multi: 
+            if ball.x > LARGEUR-10 or ball.x < 10:
+                ball.dx *= -1
+            if ball.y < 10 or ball.y > HAUTEUR-10:
+                ball.dy *= -1
+                
+        pygame.display.update()
+    
+        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                sys.exit()
+                
+        time.sleep(PAUSE)
+    victoire()
