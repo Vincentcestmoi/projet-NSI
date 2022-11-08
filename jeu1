@@ -5,8 +5,8 @@ from annexe import *
 from random import randint
 from pygame.locals import *
 
-HAUTEUR = 540
-LARGEUR = 900
+HAUTEUR = 800
+LARGEUR = 1500
 PAUSE = 0.05
 
 class Balle:
