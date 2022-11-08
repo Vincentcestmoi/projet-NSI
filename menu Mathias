@@ -103,9 +103,9 @@ def mode_level():
     fenetre = pygame.display.set_mode((1500, 800), )
     fenetre.fill([250, 250, 250])
     bouton_level = []
-    jeu1_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Jeu1', 33)
+    jeu1_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Glouton', 33)
     bouton_level.append(jeu1_button)
-    jeu2_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Jeu2', 3.669724771)
+    jeu2_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Stratego', 3.669724771)
     bouton_level.append(jeu2_button)
     jeu3_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Casse brique', 1.941747573)
     bouton_level.append(jeu3_button)
@@ -125,13 +125,13 @@ def mode_level():
                 if jeu1_button.rectangle.collidepoint(event.pos):
                     mode[1] = 1
                     mode[0] = 0
-                    niveau[0] = "mangeballe"
+                    niveau[0] = "Glouton"
                     texte_niveau[0] = "Un jeu qui consiste à manger les autres"
                     
                 if jeu2_button.rectangle.collidepoint(event.pos):
                     mode[1] = 2
                     mode[0] = 0
-                    niveau[0] = "teamball"
+                    niveau[0] = "Stratego"
                     texte_niveau[0] = "Un jeu demandant de la réflexion, en combat d'équipe"
                     
                 if jeu3_button.rectangle.collidepoint(event.pos):
