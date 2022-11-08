@@ -1,3 +1,4 @@
+#menu
 import pygame, sys
 from pygame.locals import *
 from trophee_jeu1 import *
@@ -15,8 +16,8 @@ little_impact = pygame.font.SysFont('Impact', 30)
 #mode, menu = 0, 
 
 mode = [0, 0]
-level = ['rien']
-texte_niveau = ["aucun niveau n'est sélectionné"]
+niveau = ['Aucun niveau selectionné']
+texte_niveau = ["Aucun niveau n'est sélectionné"]
 
 hauteur = [800]
 longueur = [1500]
@@ -65,7 +66,9 @@ def mode_menu():
     bouton_menu.append(leave_button)
     font = pygame.font.Font(pygame.font.get_default_font(), 25)
     text = font.render(texte_niveau[0], True, (0, 0, 0))
-    fenetre.blit(text, dest=(375, 100))
+    fenetre.blit(text, dest=(375, 140))
+    text = font.render(niveau[0], True, (0, 0, 0))
+    fenetre.blit(text, dest=(375, 80))
     
     for boutons in bouton_menu:
         boutons.adaptation_taille(hauteur[0], longueur[0])
@@ -120,19 +123,22 @@ def mode_level():
             if event.button == 1:
                 
                 if jeu1_button.rectangle.collidepoint(event.pos):
-                    mode[1] = 0
-                    mode[0] = 0
-                    texte_niveau[0] = "mangeballe"
-                    
-                if jeu2_button.rectangle.collidepoint(event.pos):
                     mode[1] = 1
                     mode[0] = 0
-                    texte_niveau[0] = "teamballe"
+                    niveau[0] = "mangeballe"
+                    texte_niveau[0] = "Un jeu qui consiste à manger les autres"
                     
-                if jeu3_button.rectangle.collidepoint(event.pos):
+                if jeu2_button.rectangle.collidepoint(event.pos):
                     mode[1] = 2
                     mode[0] = 0
-                    texte_niveau[0] = "casse brique"
+                    niveau[0] = "teamball"
+                    texte_niveau[0] = "Un jeu demandant de la réflexion, en combat d'équipe"
+                    
+                if jeu3_button.rectangle.collidepoint(event.pos):
+                    mode[1] = 3
+                    mode[0] = 0
+                    niveau[0] = "casse brique"
+                    texte_niveau[0] = "Un jeu de dextérité où vous devez cassez des briques sans perdre votre balles" 
                     
                 if return_button.rectangle.collidepoint(event.pos):
                      mode[0] = 0
@@ -146,20 +152,24 @@ def mode_level():
 def play():
     mode[0] = 0
     if mode[1] == 0:
+        texte_niveau[0] = 'Veillez selectionnez un niveau'
+    if mode[1] == 1:
         mangeballe()
-    elif mode[1] == 1:
-        teamball()
     elif mode[1] == 2:
-        print('casse-brique()')
+        teamball()
+    elif mode[1] == 3:
+        texte_niveau[0] = 'momentanément indisponible'
 
 def aide():
     mode[0] = 0
     if mode[1] == 0:
+        texte_niveau[0] = 'Veillez selectionnez un niveau'
+    if mode[1] == 1:
         regle1()
-    elif mode[1] == 1:
-        regle2()
     elif mode[1] == 2:
-        print('regle casse-brique()')
+        regle2()
+    elif mode[1] == 3:
+        texte_niveau[0] = 'momentanément indisponible'
 
 while True:
     if mode[0] == 0:
