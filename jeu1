@@ -20,7 +20,6 @@ class Balle:
         self.alive = True
 
 def mangeballe(nbrballes = 10):
-    regle1()
     multi = []
     for _ in range(nbrballes):
         bal = Balle(randint(10, LARGEUR - 10), randint(10, HAUTEUR - 10), (randint(0, 255), randint(0, 255), randint(0, 255)), randint(-25, 25), randint(-25, 25), randint(8, 15))
