@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 from trophee_jeu1 import *
+from annexe import *
 from trophee_jeu4 import *
 
 
@@ -15,7 +16,7 @@ little_impact = pygame.font.SysFont('Impact', 30)
 
 mode = [0, 0]
 level = ['rien']
-texte_niveau = "aucun niveau n'est sélectionné"
+texte_niveau = ["aucun niveau n'est sélectionné"]
 
 hauteur = [800]
 longueur = [1500]
@@ -51,6 +52,7 @@ class bouton:
         
      
 def mode_menu():
+    fenetre = pygame.display.set_mode((1500, 800), )
     fenetre.fill([250, 250, 250])
     bouton_menu = []
     play_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Jouer', 33)
@@ -61,6 +63,9 @@ def mode_menu():
     bouton_menu.append(help_button)
     leave_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Quitter', 1.320132013)
     bouton_menu.append(leave_button)
+    font = pygame.font.Font(pygame.font.get_default_font(), 25)
+    text = font.render(texte_niveau[0], True, (0, 0, 0))
+    fenetre.blit(text, dest=(375, 100))
     
     for boutons in bouton_menu:
         boutons.adaptation_taille(hauteur[0], longueur[0])
@@ -73,13 +78,13 @@ def mode_menu():
             if event.button == 1:
                 
                 if play_button.rectangle.collidepoint(event.pos):
-                        mode[0] = 2
+                    mode[0] = 2
                     
                 if level_button.rectangle.collidepoint(event.pos):
                     mode[0] = 1
                     
                 if help_button.rectangle.collidepoint(event.pos):
-                    print("aide")
+                    mode[0] = 3
                     
                 if leave_button.rectangle.collidepoint(event.pos):
                      pygame.display.quit()
@@ -92,6 +97,7 @@ def mode_menu():
     pygame.display.flip()
         
 def mode_level():
+    fenetre = pygame.display.set_mode((1500, 800), )
     fenetre.fill([250, 250, 250])
     bouton_level = []
     jeu1_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Jeu1', 33)
@@ -116,16 +122,17 @@ def mode_level():
                 if jeu1_button.rectangle.collidepoint(event.pos):
                     mode[1] = 0
                     mode[0] = 0
-                    texte_niveau = "mangeballe"
+                    texte_niveau[0] = "mangeballe"
                     
                 if jeu2_button.rectangle.collidepoint(event.pos):
                     mode[1] = 1
                     mode[0] = 0
-                    texte_niveau = "teamballe"
+                    texte_niveau[0] = "teamballe"
                     
                 if jeu3_button.rectangle.collidepoint(event.pos):
                     mode[1] = 2
                     mode[0] = 0
+                    texte_niveau[0] = "casse brique"
                     
                 if return_button.rectangle.collidepoint(event.pos):
                      mode[0] = 0
@@ -137,13 +144,22 @@ def mode_level():
     pygame.display.flip()
 
 def play():
+    mode[0] = 0
     if mode[1] == 0:
         mangeballe()
     elif mode[1] == 1:
         teamball()
-#    else:
-#        casse-brique()
+    elif mode[1] == 2:
+        print('casse-brique()')
+
+def aide():
     mode[0] = 0
+    if mode[1] == 0:
+        regle1()
+    elif mode[1] == 1:
+        regle2()
+    elif mode[1] == 2:
+        print('regle casse-brique()')
 
 while True:
     if mode[0] == 0:
@@ -152,3 +168,5 @@ while True:
         mode_level()
     if mode[0] == 2:
         play()
+    if mode[0] == 3:
+        aide()
