@@ -31,7 +31,6 @@ class Balle:
             pygame.display.update()
 
 def teamball():
-    regle2()
     multi_bleu = []
     multi_rouge = []
     obstacles = []
