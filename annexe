@@ -1,7 +1,7 @@
 #annexe
 import pygame, sys
 from pygame.locals import *
-fenetre = pygame.display.set_mode((900, 540))
+fenetre = pygame.display.set_mode((1500, 800), )
 
 
 def victoire():
@@ -19,11 +19,10 @@ def victoire():
         # routine pour pouvoir fermer «proprement» la fenêtre Pygame
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.display.quit()
-                sys.exit()
+                return None
 
 
-def defaite(jeu):
+def defaite():
     pygame.init()
     HAUTEUR = 540 # à affiner
     LARGEUR = 900 # à affiner
@@ -38,8 +37,7 @@ def defaite(jeu):
         # routine pour pouvoir fermer «proprement» la fenêtre Pygame
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.display.quit()
-                sys.exit()   
+                return None
 
 
 def regle1():
