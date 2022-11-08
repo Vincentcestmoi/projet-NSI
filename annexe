@@ -7,8 +7,8 @@ fenetre = pygame.display.set_mode((1500, 800), )
 def victoire():
     while True:
         pygame.init()
-        HAUTEUR = 540 # à affiner
-        LARGEUR = 900 # à affiner
+        HAUTEUR = 800
+        LARGEUR = 1500
         pygame.display.init()
         fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
         fenetre.fill([20,28,85])
@@ -24,8 +24,8 @@ def victoire():
 
 def defaite():
     pygame.init()
-    HAUTEUR = 540 # à affiner
-    LARGEUR = 900 # à affiner
+    HAUTEUR = 800
+    LARGEUR = 1500
     pygame.display.init()
     fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
     fenetre.fill([15, 15, 15])
@@ -42,27 +42,23 @@ def defaite():
 
 def regle1():
     pygame.init()
-    HAUTEUR = 540 # à affiner
-    LARGEUR = 900 # à affiner
+    HAUTEUR = 800
+    LARGEUR = 1500
     pygame.display.init()
     fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
     fenetre.fill([25, 225, 225])
     font = pygame.font.Font(pygame.font.get_default_font(), 50)
     text = font.render("REGLES :", True, (255, 0, 0))
-    fenetre.blit(text, dest=(20, 20))
+    fenetre.blit(text, dest=(720, 20))
     font = pygame.font.Font(pygame.font.get_default_font(), 20)
-    text = font.render("-Vous incarnez une balle bleu qui se déplace avec les flèches directionnelles", True, (0, 0, 0))
+    text = font.render("-Vous incarnez une balle bleu qui se déplace avec les flèches directionnelles ou les touches ZQSD", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 120))
     text = font.render("-Votre but est de manger toutes les autres balles", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 150))
-    text = font.render("-A Chaque fois que vous touchez une autre balle, vous la 'mangez'", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 180))
-    text = font.render("et devenez plus grand mais aussi plus lent", True, (0, 0, 0))
-    fenetre.blit(text, dest=(25, 198))
-    text = font.render("-Lorsque les autres balles touchent le mur ou se touchent", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 228))
-    text = font.render("elles rebondissent", True, (0, 0, 0))
-    fenetre.blit(text, dest=(26, 244))
+    text = font.render("-A chaque fois que vous touchez une autre balle, vous la 'mangez' et devenez plus grand mais aussi plus lent", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 240))
+    text = font.render("-Lorsque les autres balles touchent le mur ou se touchent, elles rebondissent", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 300))
     text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
     fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
     pygame.display.update()
@@ -74,49 +70,46 @@ def regle1():
                 sys.exit()
         for event in pygame.event.get() : #lancer le jeu    
             if event.type == KEYDOWN:
-                pygame.display.quit()
                 return None
 
 def regle2():
     pygame.init()
-    HAUTEUR = 540 # à affiner
-    LARGEUR = 900 # à affiner
+    HAUTEUR = 800
+    LARGEUR = 1500
     pygame.display.init()
     fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
     fenetre.fill([25, 225, 225])
     font = pygame.font.Font(pygame.font.get_default_font(), 50)
     text = font.render("REGLES :", True, (255, 0, 0))
-    fenetre.blit(text, dest=(20, 20))
+    fenetre.blit(text, dest=(720, 20))
     font = pygame.font.Font(pygame.font.get_default_font(), 20)
-    text = font.render("-Vous incarnez une équipe bleue qui se déplace (d'un bloc)", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 120))
-    text = font.render(" avec les flèches directionnelles", True, (0, 0, 0))
-    fenetre.blit(text, dest=(25, 138))
-    text = font.render("-Les boules géantes sont des 'reines', les petites sont des 'soldats'", True, (0, 0, 0))
-    pygame.draw.circle(fenetre, (0, 0, 255), (730, 168), 50)
-    pygame.draw.circle(fenetre, (0, 0, 255), (800, 168), 10)
-    fenetre.blit(text, dest=(20, 168))
-    text = font.render("et les grises sont des 'obstacles'", True, (0, 0, 0))
-    pygame.draw.circle(fenetre, (125, 125, 125), (850, 200), 15)
-    fenetre.blit(text, dest=(26, 186))
+    text = font.render("-Vous incarnez une équipe bleue qui se déplace (d'un bloc) avec les flèches directionnelles ou les touches ZQSD", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 140))
+    text = font.render("-Les boules géantes sont des 'reines', les petites sont des 'soldats' et les grises sont des 'obstacles'", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 200))
     text = font.render("-Les soldats meurent dès qu'ils touchent quelque chose", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 216))
+    fenetre.blit(text, dest=(20, 225))
     text = font.render("-Les obstacles disparaissent s'ils sont touchés par une reine", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 236))
+    fenetre.blit(text, dest=(20, 250))
     text = font.render("-Les reines meurent dès qu'elles sont touchée par l'équipe adverse", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 256))
+    fenetre.blit(text, dest=(20, 275))
     text = font.render("-N'importe qui disparait s'il sort de la carte", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 276))
-    text = font.render("-L'équipe qui perds sa reine est éliminé", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 306))
-    text = font.render("-Les déplacement de l'équipe adverse (rouge) sont aléatoires et ont lieu", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 336))
-    text = font.render("dès que l'équipe bleue bouge", True, (0, 0, 0))
-    fenetre.blit(text, dest=(26, 354))
-    text = font.render("-Des soldats sont générés spontanéments dans les deux équipes", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 384))
-    text = font.render("à gauche pour les bleus, à droite pour les rouges", True, (0, 0, 0))
-    fenetre.blit(text, dest=(26, 402))
+    fenetre.blit(text, dest=(20, 295))
+    text = font.render("-L'équipe qui perds sa reine est éliminée", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 350))
+    text = font.render("-Les déplacement de l'équipe adverse (rouge) sont aléatoires et ont lieu dès que l'équipe bleue bouge", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 410))
+    text = font.render("-Des soldats sont générés spontanéments dans les deux équipes : à gauche pour les bleus, à droite pour les rouges", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 470))
+    pygame.draw.circle(fenetre, (0, 0, 255), (500, 600), 50)
+    text = font.render("Reine", True, (255, 255, 255))
+    fenetre.blit(text, dest=(475, 590))
+    pygame.draw.circle(fenetre, (255, 0, 0), (700, 600), 10)
+    text = font.render("Soldat", True, (0, 0, 0))
+    fenetre.blit(text, dest=(670, 560))
+    pygame.draw.circle(fenetre, (125, 125, 125), (850, 600), 15)
+    text = font.render("Obstacle", True, (255, 0, 0))
+    fenetre.blit(text, dest=(810, 560))
     text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
     fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
     pygame.display.update()
@@ -128,7 +121,6 @@ def regle2():
                 sys.exit()
         for event in pygame.event.get() : #lancer le jeu    
             if event.type == KEYDOWN:
-                pygame.display.quit()
                 return None
                 
 pygame.display.quit()
