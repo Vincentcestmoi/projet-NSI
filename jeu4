@@ -30,28 +30,28 @@ class Balle:
             pygame.draw.circle(fenetre,(255, 255 , 255),(self.x, self.y), rayon)
             pygame.display.update()
 
-def teamball():
-    multi_bleu = []
+def teamball(couleur):
+    multi_joueur = []
     multi_rouge = []
     obstacles = []
-    reine_bleu = Balle(LARGEUR // 5, HAUTEUR // 2, (0, 0, 255), 50)
-    multi_bleu.append(reine_bleu)
+    reine_joueur = Balle(LARGEUR // 5, HAUTEUR // 2, couleur, 50)
+    multi_joueur.append(reine_joueur)
     reine_rouge = Balle((4*LARGEUR) // 5, HAUTEUR // 2, (255, 0, 0), 50)
     multi_rouge.append(reine_rouge)
     x = 0
     y = 0
     span = 0
     for i in range(8):
-        x = reine_bleu.x + [-75, 0, 0, 75, 50, 50, -50, -50][i]
-        y = reine_bleu.y + [0, 75, -75, 0, 50, -50, 50, -50][i]
-        ballebleu = Balle(x, y, (0, 0, 255), 10)
-        multi_bleu.append(ballebleu)
+        x = reine_joueur.x + [-75, 0, 0, 75, 50, 50, -50, -50][i]
+        y = reine_joueur.y + [0, 75, -75, 0, 50, -50, 50, -50][i]
+        ballejoueur = Balle(x, y, couleur, 10)
+        multi_joueur.append(ballejoueur)
         x = reine_rouge.x + [-75, 0, 0, 75, 50, 50, -50, -50][i]
         y = reine_rouge.y + [0, 75, -75, 0, 50, -50, 50, -50][i]
         ballerouge = Balle(x, y, (255, 0, 0), 10)
         multi_rouge.append(ballerouge)
     for _ in range(10):
-        balle = Balle(randint(LARGEUR//4, 3 * LARGEUR//4), randint(HAUTEUR//7, 6* HAUTEUR//7), (125, 125, 125), randint(8, 25))
+        balle = Balle(randint(LARGEUR//4, 3 * LARGEUR//4), randint(HAUTEUR//7, 6* HAUTEUR//7), (115, 115, 115), randint(8, 25))
         obstacles.append(balle)
 
     pygame.display.init()
@@ -68,12 +68,12 @@ def teamball():
             c = randint(3 * LARGEUR//4, LARGEUR -25)
             d = randint(HAUTEUR//7, 6* HAUTEUR//7)
             if ((reine_rouge.x - a)**2 + (reine_rouge.y - b)**2)**0.5 > reine_rouge.rayon+25:
-                multi_bleu.append(Balle(a, b, (0, 0, 255), 10))
-            if ((reine_bleu.x - a)**2 + (reine_bleu.y - b)**2)**0.5 > reine_bleu.rayon+25:
+                multi_joueur.append(Balle(a, b, couleur, 10))
+            if ((reine_joueur.x - c)**2 + (reine_joueur.y - d)**2)**0.5 > reine_joueur.rayon+25:
                 multi_rouge.append(Balle(c, d, (255, 0, 0), 10))
             span = 0
             
-        for balle in multi_bleu:
+        for balle in multi_joueur:
             pygame.draw.circle(fenetre,(255,255, 255),(balle.x, balle.y), balle.rayon) #gomme
         for balle in multi_rouge:
             pygame.draw.circle(fenetre,(255,255, 255),(balle.x, balle.y), balle.rayon) #gomme
@@ -93,68 +93,63 @@ def teamball():
                         balle.y += mouvement
 
                 if event.key == K_DOWN or event.key == K_s:
-                    for balle in multi_bleu:
+                    for balle in multi_joueur:
                         balle.y += 10
 
                 if event.key == K_UP or event.key == K_z:
-                    for balle in multi_bleu:
+                    for balle in multi_joueur:
                         balle.y -= 10
 
                 if event.key == K_RIGHT or event.key == K_d:
-                    for balle in multi_bleu:
+                    for balle in multi_joueur:
                         balle.x += 10
 
                 if event.key == K_q or event.key == K_LEFT : 
-                    for balle in multi_bleu:
+                    for balle in multi_joueur:
                         balle.x -= 10
         
-        for balle in multi_bleu + multi_rouge:
+        for balle in multi_joueur + multi_rouge:
             pygame.draw.circle(fenetre, balle.couleur, (balle.x, balle.y), balle.rayon) #dessine les balles
             if balle.y < 5 or balle.x < 5 or balle.y > HAUTEUR -5 or balle.x > LARGEUR -5:#hors plan  
                 pygame.draw.circle(fenetre,(255,255, 255),(balle.x, balle.y), balle.rayon) #efface puis supprime la balle
                 if balle.rayon == 50: # reine
                     balle.explose(fenetre)
-                    if balle in multi_bleu:
-                        defaite()
-                        return None
-                    victoire()
-                    return None
-                if balle in multi_bleu:
-                    multi_bleu.remove(balle)
+                    if balle in multi_joueur:
+                        return defaite()
+                    return victoire()
+                if balle in multi_joueur:
+                    multi_joueur.remove(balle)
                 else:
                     multi_rouge.remove(balle)
        
-        for blue in multi_bleu:
+        for color in multi_joueur:
             for red in multi_rouge:
-                if((red.x - blue.x)**2 + (red.y - blue.y)**2)**0.5 < red.rayon+blue.rayon: #collision
-                    if blue.rayon != 50 and red.rayon != 50: #simple soldat
+                if((red.x - color.x)**2 + (red.y - color.y)**2)**0.5 < red.rayon+color.rayon: #collision
+                    if color.rayon != 50 and red.rayon != 50: #simple soldat
                         red.explose(fenetre) #on efface puis supprimes les deux balles
-                        blue.explose(fenetre)
+                        color.explose(fenetre)
                         multi_rouge.remove(red)
-                        multi_bleu.remove(blue)
-                    elif blue.rayon == 50 and red.rayon != 50: #reine bleu seule
-                        blue.explose(fenetre)
+                        multi_joueur.remove(color)
+                    elif color.rayon == 50 and red.rayon != 50: #reine bleu seule
+                        color.explose(fenetre)
                         time.sleep(0.5)
-                        defaite()
-                        return None
-                    elif red.rayon == 50 and blue.rayon != 50: #reine rouge
+                        return defaite()
+                    elif red.rayon == 50 and color.rayon != 50: #reine rouge
                         red.explose(fenetre)
                         time.sleep(0.5)
-                        victoire()
-                        return None
+                        return victoire()
                     else:
                         red.explose(fenetre)
-                        blue.explose(fenetre)
-                        defaite()
-                        return None
+                        color.explose(fenetre)
+                        return defaite()
                         
-        for balle in multi_bleu + multi_rouge:
+        for balle in multi_joueur + multi_rouge:
             for obstacle in obstacles:
                 if((balle.x - obstacle.x)**2 + (balle.y - obstacle.y)**2)**0.5 < balle.rayon+obstacle.rayon: #collision avec un obstacle
                     if balle.rayon != 50: #simple soldat
                         balle.explose(fenetre)
-                        if balle in multi_bleu:
-                            multi_bleu.remove(balle)
+                        if balle in multi_joueur:
+                            multi_joueur.remove(balle)
                         else:
                             multi_rouge.remove(balle)
                     else: #reine
