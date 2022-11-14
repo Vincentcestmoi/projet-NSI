@@ -19,7 +19,7 @@ class Balle:
         self.rayon = rayon
         self.alive = True
 
-def mangeballe(nbrballes = 10):
+def mangeballe(couleur, nbrballes = 10):
     multi = []
     for _ in range(nbrballes):
         bal = Balle(randint(10, LARGEUR - 10), randint(10, HAUTEUR - 10), (randint(0, 255), randint(0, 255), randint(0, 255)), randint(-25, 25), randint(-25, 25), randint(8, 15))
@@ -29,7 +29,7 @@ def mangeballe(nbrballes = 10):
     pygame.display.init()
     fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
     fenetre.fill([20,28,85])
-    maballe = Balle(LARGEUR/2, HAUTEUR/2, (52, 21, 250), None, None, 15)
+    maballe = Balle(LARGEUR/2, HAUTEUR/2, couleur, None, None, 15)
     pygame.key.set_repeat(vitesse)
     
     while len(multi) > 0:
@@ -60,7 +60,7 @@ def mangeballe(nbrballes = 10):
                     if maballe.x > 11:
                         maballe.x -= 10
         
-        pygame.draw.circle(fenetre, (52, 21, 250), (maballe.x, maballe.y), maballe.rayon)#dessine la balle joueur
+        pygame.draw.circle(fenetre, maballe.couleur, (maballe.x, maballe.y), maballe.rayon)#dessine la balle joueur
 
         for m in range(len(multi)):
             if ((maballe.x - multi[m].x)**2 + (maballe.y - multi[m].y)**2)**0.5 < maballe.rayon+multi[m].rayon:
@@ -93,4 +93,4 @@ def mangeballe(nbrballes = 10):
                 sys.exit()
                 
         time.sleep(PAUSE)
-    victoire()
+    return victoire()
