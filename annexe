@@ -1,441 +1,128 @@
-#menu
+#annexe
 import pygame, sys
 from pygame.locals import *
-from trophee_jeu1 import *
-from annexe import *
-from trophee_jeu4 import *
-
-
-pygame.init()
-pygame.key.set_repeat(10)
-
-
-impact = pygame.font.SysFont('Impact', 60)
-little_impact = pygame.font.SysFont('Impact', 30)
-
-#mode, menu = 0, jeu, difficulté 
-
-mode = [0, 0, 0]
-niveau = ['Aucun niveau selectionné', 'facile']
-texte_niveau = ["Aucun niveau n'est sélectionné"]
-couleur = [(50, 100, 200), 'bleu']
-point = [0]
-
-hauteur = [800]
-longueur = [1500]
-
-#création fenetre
-pygame.display.set_caption("Test_Jeux")
 fenetre = pygame.display.set_mode((1500, 800), )
-position_fenetre = fenetre.get_rect()
 
 
+def victoire(multi = 1):
+    while True:
+        pygame.init()
+        HAUTEUR = 800
+        LARGEUR = 1500
+        pygame.display.init()
+        fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
+        fenetre.fill([20,28,85])
+        font = pygame.font.Font(pygame.font.get_default_font(), 50)
+        text = font.render("VICTOIRE !!!", True, (255, 120, 20))
+        fenetre.blit(text, dest=(LARGEUR/2 - 150,HAUTEUR/2 - 5))
+        pygame.display.update()
+        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return multi
 
-class bouton:
-    def __init__(self, hauteur, longueur, x, y, couleur, texte, multi_y):
-        self.hauteur = hauteur
-        self.longueur = longueur
-        self.x = x
-        self.y = y
-        self.couleur = couleur
-        self.texte = texte
-        self.rectangle = pygame.draw.rect(fenetre, self.couleur, (self.x, self.y, self.longueur, self.hauteur))
-        self.multi_y = multi_y
-        
-    def apparition(self): 
-        pygame.draw.rect(fenetre, self.couleur, (self.x, self.y, self.longueur, self.hauteur))
-        text = impact.render(self.texte, True, (0,0,0))
-        text_rect = text.get_rect(center=(self.x + self.longueur/2, self.y + self.hauteur/2))
-        fenetre.blit(text, text_rect)
-    
-    def adaptation_taille(self, new_hauteur, new_longueur):
-        self.y = new_hauteur / self.multi_y
-        self.longueur = new_longueur / 5
-        self.hauteur = new_hauteur / 4.705882353
-        
-     
-def mode_menu():
-    fenetre = pygame.display.set_mode((1500, 800), )
-    fenetre.fill([250, 250, 250])
-    bouton_menu = []
-    play_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Jouer', 33)
-    bouton_menu.append(play_button)
-    level_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Jeu', 3.669724771)
-    bouton_menu.append(level_button)
-    help_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Option de jeu', 1.941747573)
-    bouton_menu.append(help_button)
-    leave_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Quitter', 1.320132013)
-    bouton_menu.append(leave_button)
-    font = pygame.font.Font(pygame.font.get_default_font(), 25)
-    text = font.render(texte_niveau[0], True, (0, 0, 0))
-    fenetre.blit(text, dest=(375, 100))
-    text = font.render(niveau[0] + '/ difficulté : '  + niveau[1], True, (0, 0, 0))
-    fenetre.blit(text, dest=(375, 40))
-    text = font.render('Vous avez actuellement ' + str(point[0]) + ' points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(375, 160))
-    
-    for boutons in bouton_menu:
-        boutons.adaptation_taille(hauteur[0], longueur[0])
-        boutons.apparition()
-        
-    for event in pygame.event.get() :
-        if event.type == pygame.VIDEORESIZE:
-            longueur[0], hauteur[0] = event.size
-        if event.type == MOUSEBUTTONUP:
-            if event.button == 1:
-                
-                if play_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 2
-                    
-                if level_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 1
-                    
-                if help_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 3
-                    
-                if leave_button.rectangle.collidepoint(event.pos):
-                     pygame.display.quit()
-                     sys.exit()
-                     
-        if event.type == pygame.QUIT:
-            pygame.display.quit()
-            sys.exit()
-            
-    pygame.display.flip()
-        
-def mode_jeu():
-    fenetre = pygame.display.set_mode((1500, 800), )
-    fenetre.fill([250, 250, 250])
-    bouton_level = []
-    jeu1_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Glouton', 33)
-    bouton_level.append(jeu1_button)
-    jeu2_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Stratego', 3.669724771)
-    bouton_level.append(jeu2_button)
-    jeu3_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Casse brique', 1.941747573)
-    bouton_level.append(jeu3_button)
-    return_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Retour', 1.320132013)
-    bouton_level.append(return_button)
-    font = pygame.font.Font(pygame.font.get_default_font(), 25)
-    text = font.render('Glouton :', True, (0, 0, 0))
-    fenetre.blit(text, dest=(960, 40))
-    text = font.render('-victoire = 2 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 40))
-    text = font.render('Stratégo :', True, (0, 0, 0))
-    fenetre.blit(text, dest=(950, 120))
-    text = font.render('-victoire = 4 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 120))
-    text = font.render('-défaite = -2 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 150))
-    text = font.render('Casse brique :', True, (0, 0, 0))
-    fenetre.blit(text, dest=(895, 210))
-    text = font.render('-victoire = 2 points/vie', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 210))
-    text = font.render('-défaite = -2 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 240))
-    
-    for boutons in bouton_level:
-        boutons.adaptation_taille(hauteur[0], longueur[0])
-        boutons.apparition()
-        
-    for event in pygame.event.get() :
-        if event.type == pygame.VIDEORESIZE:
-            longueur[0], hauteur[0] = event.size
-        if event.type == MOUSEBUTTONUP:
-            if event.button == 1:
-                
-                if jeu1_button.rectangle.collidepoint(event.pos):
-                    mode[1] = 1
-                    mode[0] = 0
-                    niveau[0] = "Glouton"
-                    texte_niveau[0] = "Un jeu qui consiste à manger les autres"
-                    
-                if jeu2_button.rectangle.collidepoint(event.pos):
-                    mode[1] = 2
-                    mode[0] = 0
-                    niveau[0] = "Stratego"
-                    texte_niveau[0] = "Un jeu demandant de la réflexion, en combat d'équipe"
-                    
-                if jeu3_button.rectangle.collidepoint(event.pos):
-                    mode[1] = 3
-                    mode[0] = 0
-                    niveau[0] = "casse brique"
-                    texte_niveau[0] = "Un jeu de dextérité où vous devez cassez des briques sans perdre votre balles" 
-                    
-                if return_button.rectangle.collidepoint(event.pos):
-                     mode[0] = 0
-                     
-        if event.type == pygame.QUIT:
-            pygame.display.quit()
-            sys.exit()
-            
-    pygame.display.flip()
-    
-def mode_option():
-    fenetre = pygame.display.set_mode((1500, 800), )
-    fenetre.fill([250, 250, 250])
-    bouton_level = []
-    regle_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Regle', 33)
-    bouton_level.append(regle_button)
-    color_button = bouton(170, 300, 24, 218, couleur[0], 'Couleur', 3.669724771)
-    bouton_level.append(color_button)
-    level_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Difficultés', 1.941747573)
-    bouton_level.append(level_button)
-    return_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Retour', 1.320132013)
-    bouton_level.append(return_button)
-    font = pygame.font.Font(pygame.font.get_default_font(), 25)
-    text = font.render(texte_niveau[0], True, (0, 0, 0))
-    fenetre.blit(text, dest=(375, 140))
-    text = font.render(niveau[0] + '/ difficulté : '  + niveau[1], True, (0, 0, 0))
-    fenetre.blit(text, dest=(375, 80))
-    
-    for boutons in bouton_level:
-        boutons.adaptation_taille(hauteur[0], longueur[0])
-        boutons.apparition()
-        
-    for event in pygame.event.get() :
-        if event.type == pygame.VIDEORESIZE:
-            longueur[0], hauteur[0] = event.size
-        if event.type == MOUSEBUTTONUP:
-            if event.button == 1:
-                
-                if regle_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 5
-                    
-                if color_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 4
-                    
-                if level_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 6 
-                    
-                if return_button.rectangle.collidepoint(event.pos):
-                     mode[0] = 0
-                     
-        if event.type == pygame.QUIT:
-            pygame.display.quit()
-            sys.exit()
-            
-    pygame.display.flip()
-    
-def mode_couleur():
-    fenetre = pygame.display.set_mode((1500, 800), )
-    fenetre.fill([250, 250, 250])
-    bouton_level = []
-    red_button = bouton(170, 300, 24, 24, (200, 0, 0), 'Rouge', 33)
-    bouton_level.append(red_button)
-    green_button = bouton(170, 300, 24, 218, (0, 200, 0), 'Vert', 3.669724771)
-    bouton_level.append(green_button)
-    blue_button = bouton(170, 300, 24, 412, (0, 0, 200), 'Bleu', 1.941747573)
-    bouton_level.append(blue_button)
-    gris_button = bouton(170, 300, 24, 606, (128, 128, 128), 'Gris', 1.320132013)
-    bouton_level.append(gris_button)
-    yellow_button = bouton(170, 300, 350, 24, (225, 225, 0), 'Jaune', 33)
-    bouton_level.append(yellow_button)
-    pink_button = bouton(170, 300, 350, 218, (225, 0, 225), 'Rose', 3.669724771)
-    bouton_level.append(pink_button)
-    cyan_button = bouton(170, 300, 350, 412, (0, 225, 225), 'Cyan', 1.941747573)
-    bouton_level.append(cyan_button)
-    black_button = bouton(170, 300, 350, 606, (15, 15, 15), 'Noir', 1.320132013)
-    bouton_level.append(black_button)
-    white_button = bouton(170, 300, 675, 24, (240, 240, 240), 'Blanc', 33)
-    bouton_level.append(white_button)
-    purple_button = bouton(170, 300, 675, 218, (160, 40, 160), 'Violet', 3.669724771)
-    bouton_level.append(purple_button)
-    turquoise_button = bouton(170, 300, 675, 412, (70, 200, 140), 'Turquoise', 1.941747573)
-    bouton_level.append(turquoise_button)
-    orange_button = bouton(170, 300, 675, 606, (255, 170, 0), 'Orange', 1.320132013)
-    bouton_level.append(orange_button)
-    return_button = bouton(170, 300, 1186, 606, (50, 100, 200), 'Retour', 1.320132013)
-    bouton_level.append(return_button)
-    
-    for boutons in bouton_level:
-        boutons.adaptation_taille(hauteur[0], longueur[0])
-        boutons.apparition()
-        
-    for event in pygame.event.get() :
-        if event.type == pygame.VIDEORESIZE:
-            longueur[0], hauteur[0] = event.size
-        if event.type == MOUSEBUTTONUP:
-            if event.button == 1:
-                
-                if red_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 3
-                    couleur[0] = (255, 0, 0)
-                    couleur[1] = 'rouge'
-                    
-                if green_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 3
-                    couleur[0] = (0, 255, 0)
-                    couleur[1] = 'verte'
-                    
-                if blue_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 3
-                    couleur[0] = (0, 0, 255)
-                    couleur[1] = 'bleue'
-                    
-                if return_button.rectangle.collidepoint(event.pos):
-                     mode[0] = 3
-                
-                if pink_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 3
-                    couleur[0] = (255, 0, 255)
-                    couleur[1] = 'rose'
-                    
-                if yellow_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 3
-                    couleur[0] = (255, 255, 0)
-                    couleur[1] = 'jaune'
-                    
-                if cyan_button.rectangle.collidepoint(event.pos):
-                    mode[0] = 3
-                    couleur[0] = (0, 255, 255)
-                    couleur[1] = 'cyan'
-                    
-                if black_button.rectangle.collidepoint(event.pos):
-                     mode[0] = 3
-                     couleur[0] = (15, 15, 15)
-                     couleur[1] = 'noire'
-                
-                if gris_button.rectangle.collidepoint(event.pos):
-                     mode[0] = 3
-                     couleur[0] = (128, 128, 128)
-                     couleur[1] = 'gris'
-                
-                if white_button.rectangle.collidepoint(event.pos):
-                     mode[0] = 3
-                     couleur[0] = (240, 240, 240)
-                     couleur[1] = 'blanche'
-                
-                if purple_button.rectangle.collidepoint(event.pos):
-                     mode[0] = 3
-                     couleur[0] = (160, 40, 160)
-                     couleur[1] = 'violette'
-                     
-                if turquoise_button.rectangle.collidepoint(event.pos):
-                     mode[0] = 3
-                     couleur[0] = (70, 200, 140)
-                     couleur[1] = 'turquoise'
-                     
-                if orange_button.rectangle.collidepoint(event.pos):
-                     mode[0] = 3
-                     couleur[0] = (255, 170, 0)
-                     couleur[1] = 'Orange'
-                     
-        if event.type == pygame.QUIT:
-            pygame.display.quit()
-            sys.exit()
-            
-    pygame.display.flip()
 
-def mode_level():
-    fenetre = pygame.display.set_mode((1500, 800), )
-    fenetre.fill([250, 250, 250])
-    bouton_level = []
-    easy_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Facile', 33)
-    bouton_level.append(easy_button)
-    if point[0] > 9:
-        normal_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Moyen', 3.669724771)
-        bouton_level.append(normal_button)
-        hard_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Difficile', 1.941747573)
-        bouton_level.append(hard_button)
-    elif point[0] > 4:
-        normal_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Moyen', 3.669724771)
-        bouton_level.append(normal_button)
-        hard_button = bouton(170, 300, 24, 412, (250, 50, 50), 'Difficile', 1.941747573)
-        bouton_level.append(hard_button)
-    else:
-        normal_button = bouton(170, 300, 24, 218, (250, 50, 50), 'Moyen', 3.669724771)
-        bouton_level.append(normal_button)
-        hard_button = bouton(170, 300, 24, 412, (250, 50, 50), 'Difficile', 1.941747573)
-        bouton_level.append(hard_button)
-        
-    return_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Retour', 1.320132013)
-    bouton_level.append(return_button)
-    font = pygame.font.Font(pygame.font.get_default_font(), 25)
-    text = font.render(texte_niveau[0], True, (0, 0, 0))
-    fenetre.blit(text, dest=(375, 140))
-    text = font.render(niveau[0], True, (0, 0, 0))
-    fenetre.blit(text, dest=(375, 80))
-    
-    for boutons in bouton_level:
-        boutons.adaptation_taille(hauteur[0], longueur[0])
-        boutons.apparition()
-        
-    for event in pygame.event.get() :
-        if event.type == pygame.VIDEORESIZE:
-            longueur[0], hauteur[0] = event.size
-        if event.type == MOUSEBUTTONUP:
-            if event.button == 1:
+def defaite():
+    pygame.init()
+    HAUTEUR = 800
+    LARGEUR = 1500
+    pygame.display.init()
+    fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
+    fenetre.fill([15, 15, 15])
+    font = pygame.font.Font(pygame.font.get_default_font(), 50)
+    text = font.render("DEFAITE", True, (255, 0, 0))
+    fenetre.blit(text, dest=(LARGEUR/2 - 120,HAUTEUR/2))
+    pygame.display.update()
+    while True:
+        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return 0
+
+
+def regle1(couleur):
+    pygame.init()
+    HAUTEUR = 800
+    LARGEUR = 1500
+    pygame.display.init()
+    fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
+    fenetre.fill([25, 225, 225])
+    font = pygame.font.Font(pygame.font.get_default_font(), 50)
+    text = font.render("REGLES :", True, (255, 0, 0))
+    fenetre.blit(text, dest=(720, 20))
+    font = pygame.font.Font(pygame.font.get_default_font(), 20)
+    sysD = "-Vous incarnez une balle " + str(couleur) + " qui se déplace avec les flèches directionnelles ou les touches ZQSD"
+    text = font.render(sysD, True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 120))
+    text = font.render("-Votre but est de manger toutes les autres balles", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 180))
+    text = font.render("-A chaque fois que vous touchez une autre balle, vous la 'mangez' et devenez plus grand mais aussi plus lent", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 240))
+    text = font.render("-Lorsque les autres balles touchent le mur ou se touchent, elles rebondissent", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 300))
+    text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
+    fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
+    pygame.display.update()
+    while True:
+        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                sys.exit()
+        for event in pygame.event.get() : #lancer le jeu    
+            if event.type == KEYDOWN:
+                return None
+
+def regle2(couleurtexte, couleur):
+    pygame.init()
+    HAUTEUR = 800
+    LARGEUR = 1500
+    pygame.display.init()
+    fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
+    fenetre.fill([25, 225, 225])
+    font = pygame.font.Font(pygame.font.get_default_font(), 50)
+    text = font.render("REGLES :", True, (255, 0, 0))
+    fenetre.blit(text, dest=(720, 20))
+    font = pygame.font.Font(pygame.font.get_default_font(), 20)
+    sysD = "-Vous incarnez une équipe " + str(couleurtexte) + " qui se déplace (d'un bloc) avec les flèches directionnelles ou les touches ZQSD"
+    text = font.render(sysD, True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 140))
+    text = font.render("-Les boules géantes sont des 'reines', les petites sont des 'soldats' et les grises sont des 'obstacles'", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 200))
+    text = font.render("-Les soldats meurent dès qu'ils touchent quelque chose", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 225))
+    text = font.render("-Les obstacles disparaissent s'ils sont touchés par une reine", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 250))
+    text = font.render("-Les reines meurent dès qu'elles sont touchée par l'équipe adverse", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 275))
+    text = font.render("-N'importe qui disparait s'il sort de la carte", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 295))
+    text = font.render("-L'équipe qui perds sa reine est éliminée", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 350))
+    text = font.render("-Les déplacement de l'équipe adverse (rouge) sont aléatoires et ont lieu dès que l'équipe bleue bouge", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 410))
+    text = font.render("-Des soldats sont générés spontanéments dans les deux équipes : à gauche pour les bleus, à droite pour les rouges", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 470))
+    pygame.draw.circle(fenetre, couleur, (500, 600), 50)
+    text = font.render("Reine", True, (255, 255, 255))
+    fenetre.blit(text, dest=(475, 590))
+    pygame.draw.circle(fenetre, (255, 0, 0), (700, 600), 10)
+    text = font.render("Soldat", True, (0, 0, 0))
+    fenetre.blit(text, dest=(670, 560))
+    pygame.draw.circle(fenetre, (125, 125, 125), (850, 600), 15)
+    text = font.render("Obstacle", True, (255, 0, 0))
+    fenetre.blit(text, dest=(810, 560))
+    text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
+    fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
+    pygame.display.update()
+    while True:
+        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                sys.exit()
+        for event in pygame.event.get() : #lancer le jeu    
+            if event.type == KEYDOWN:
+                return None
                 
-                if easy_button.rectangle.collidepoint(event.pos):
-                    mode[2] = 0
-                    niveau[1] = 'facile'
-                    mode[0] = 3
-                    
-                if normal_button.rectangle.collidepoint(event.pos):
-                    if point[0] > 4:
-                        mode[2] = 1
-                        niveau[1] = 'moyen'
-                    else:
-                        text = font.render('Vous avez besoin de 5 point pour selectionner cette difficulter', True, (0, 0, 0))
-                        fenetre.blit(text, dest=(375, 80))
-                    mode[0] = 3
-                    
-                if hard_button.rectangle.collidepoint(event.pos):
-                    if point[0] > 9:
-                        mode[2] = 2
-                        niveau[1] = 'difficile'
-                    else:
-                        text = font.render('Vous avez besoin de 5 point pour selectionner cette difficulter', True, (0, 0, 0))
-                        fenetre.blit(text, dest=(375, 80))
-                    mode[0] = 3
-                    
-                if return_button.rectangle.collidepoint(event.pos):
-                     mode[0] = 3
-                     
-        if event.type == pygame.QUIT:
-            pygame.display.quit()
-            sys.exit()
-            
-    pygame.display.flip()
-
-def play():
-    mode[0] = 0
-    if mode[1] == 0:
-        texte_niveau[0] = 'Veillez selectionnez un niveau'
-    if mode[1] == 1:
-        points[0] += 2*mangeballe(couleur[0])
-    elif mode[1] == 2:
-        point[0] += teamball(couleur[0])*6 -2
-    elif mode[1] == 3:
-        pont[0] += 2* (casse_brique(couleur)+1) -2
-
-def regle():
-    mode[0] = 3
-    if mode[1] == 0:
-        texte_niveau[0] = 'Veillez selectionnez un niveau'
-    if mode[1] == 1:
-        regle1(couleur[1])
-    elif mode[1] == 2:
-        regle2(couleur[1], couleur[0])
-    elif mode[1] == 3:
-        texte_niveau[0] = 'momentanément indisponible'
-
-while True:
-    if mode[0] == 0:
-        mode_menu()
-    if mode[0] == 1:
-        mode_jeu()
-    if mode[0] == 2:
-        play()
-    if mode[0] == 3:
-        mode_option()
-    if mode[0] == 4:
-        mode_couleur()
-    if mode[0] == 5:
-        regle()
-    if mode[0] == 6:
-        if mode[1] == 0:
-            texte_niveau[0] = 'Veillez selectionnez un niveau'
-            mode[0] = 3
-        else:
-            mode_level()
+pygame.display.quit()
