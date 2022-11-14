@@ -1,8 +1,9 @@
 #menu
 import pygame, sys
 from pygame.locals import *
-from trophee_jeu1 import *
 from annexe import *
+from trophee_jeu1 import *
+from trophee_jeu3 import *
 from trophee_jeu4 import *
 
 
@@ -17,9 +18,10 @@ little_impact = pygame.font.SysFont('Impact', 30)
 
 mode = [0, 0, 0]
 niveau = ['Aucun niveau selectionné', 'facile']
-texte_niveau = ["Aucun niveau n'est sélectionné"]
+texte_niveau = ["Aucun niveau n'est sélectionné", (0,0,0)]
 couleur = [(50, 100, 200), 'bleu']
 point = [0]
+refuspoint = ['']
 
 hauteur = [800]
 longueur = [1500]
@@ -67,7 +69,7 @@ def mode_menu():
     leave_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Quitter', 1.320132013)
     bouton_menu.append(leave_button)
     font = pygame.font.Font(pygame.font.get_default_font(), 25)
-    text = font.render(texte_niveau[0], True, (0, 0, 0))
+    text = font.render(texte_niveau[0], True, texte_niveau[1])
     fenetre.blit(text, dest=(375, 100))
     text = font.render(niveau[0] + '/ difficulté : '  + niveau[1], True, (0, 0, 0))
     fenetre.blit(text, dest=(375, 40))
@@ -120,18 +122,20 @@ def mode_jeu():
     fenetre.blit(text, dest=(960, 40))
     text = font.render('-victoire = 2 points', True, (0, 0, 0))
     fenetre.blit(text, dest=(1100, 40))
+    text = font.render('-défaite = -2 points', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 70))
     text = font.render('Stratégo :', True, (0, 0, 0))
-    fenetre.blit(text, dest=(950, 120))
+    fenetre.blit(text, dest=(950, 150))
     text = font.render('-victoire = 4 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 120))
-    text = font.render('-défaite = -2 points', True, (0, 0, 0))
     fenetre.blit(text, dest=(1100, 150))
-    text = font.render('Casse brique :', True, (0, 0, 0))
-    fenetre.blit(text, dest=(895, 210))
-    text = font.render('-victoire = 2 points/vie', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 210))
     text = font.render('-défaite = -2 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 240))
+    fenetre.blit(text, dest=(1100, 180))
+    text = font.render('Casse brique :', True, (0, 0, 0))
+    fenetre.blit(text, dest=(895, 260))
+    text = font.render('-victoire = 2 points/vie', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 260))
+    text = font.render('-défaite = -2 points', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 290))
     
     for boutons in bouton_level:
         boutons.adaptation_taille(hauteur[0], longueur[0])
@@ -148,18 +152,21 @@ def mode_jeu():
                     mode[0] = 0
                     niveau[0] = "Glouton"
                     texte_niveau[0] = "Un jeu qui consiste à manger les autres"
+                    texte_niveau[1] = (0, 0, 0)
                     
                 if jeu2_button.rectangle.collidepoint(event.pos):
                     mode[1] = 2
                     mode[0] = 0
                     niveau[0] = "Stratego"
                     texte_niveau[0] = "Un jeu demandant de la réflexion, en combat d'équipe"
+                    texte_niveau[1] = (0, 0, 0)
                     
                 if jeu3_button.rectangle.collidepoint(event.pos):
                     mode[1] = 3
                     mode[0] = 0
                     niveau[0] = "casse brique"
-                    texte_niveau[0] = "Un jeu de dextérité où vous devez cassez des briques sans perdre votre balles" 
+                    texte_niveau[0] = "Un jeu de dextérité où vous devez cassez des briques sans perdre votre balles"
+                    texte_niveau[1] = (0, 0, 0)
                     
                 if return_button.rectangle.collidepoint(event.pos):
                      mode[0] = 0
@@ -178,12 +185,12 @@ def mode_option():
     bouton_level.append(regle_button)
     color_button = bouton(170, 300, 24, 218, couleur[0], 'Couleur', 3.669724771)
     bouton_level.append(color_button)
-    level_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Difficultés', 1.941747573)
+    level_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Difficulté', 1.941747573)
     bouton_level.append(level_button)
     return_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Retour', 1.320132013)
     bouton_level.append(return_button)
     font = pygame.font.Font(pygame.font.get_default_font(), 25)
-    text = font.render(texte_niveau[0], True, (0, 0, 0))
+    text = font.render(texte_niveau[0], True, texte_niveau[1])
     fenetre.blit(text, dest=(375, 140))
     text = font.render(niveau[0] + '/ difficulté : '  + niveau[1], True, (0, 0, 0))
     fenetre.blit(text, dest=(375, 80))
@@ -327,9 +334,13 @@ def mode_couleur():
     pygame.display.flip()
 
 def mode_level():
+    text = ''
     fenetre = pygame.display.set_mode((1500, 800), )
     fenetre.fill([250, 250, 250])
     bouton_level = []
+    font = pygame.font.Font(pygame.font.get_default_font(), 25)
+    text = font.render(refuspoint[0], True, (240, 0, 0))
+    fenetre.blit(text, dest=(375, 180))
     easy_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Facile', 33)
     bouton_level.append(easy_button)
     if point[0] > 9:
@@ -370,27 +381,29 @@ def mode_level():
                     mode[2] = 0
                     niveau[1] = 'facile'
                     mode[0] = 3
+                    refuspoint[0] = ''
                     
                 if normal_button.rectangle.collidepoint(event.pos):
                     if point[0] > 4:
                         mode[2] = 1
                         niveau[1] = 'moyen'
+                        mode[0] = 3
+                        refuspoint[0] = ''
                     else:
-                        text = font.render('Vous avez besoin de 5 point pour selectionner cette difficulter', True, (0, 0, 0))
-                        fenetre.blit(text, dest=(375, 80))
-                    mode[0] = 3
-                    
+                        refuspoint[0] = 'Vous avez besoin de 5 points minimum pour selectionner cette difficulté'
+                        
                 if hard_button.rectangle.collidepoint(event.pos):
                     if point[0] > 9:
                         mode[2] = 2
                         niveau[1] = 'difficile'
+                        mode[0] = 3
+                        refuspoint[0] = ''
                     else:
-                        text = font.render('Vous avez besoin de 5 point pour selectionner cette difficulter', True, (0, 0, 0))
-                        fenetre.blit(text, dest=(375, 80))
-                    mode[0] = 3
+                        refuspoint[0] = 'Vous avez besoin de 10 points minimum pour selectionner cette difficulté'
                     
                 if return_button.rectangle.collidepoint(event.pos):
                      mode[0] = 3
+                     refuspoint[0] = ''
                      
         if event.type == pygame.QUIT:
             pygame.display.quit()
@@ -401,24 +414,30 @@ def mode_level():
 def play():
     mode[0] = 0
     if mode[1] == 0:
-        texte_niveau[0] = 'Veillez selectionnez un niveau'
+        texte_niveau[0] = 'Veillez selectionnez un jeu'
+        texte_niveau[1] = (240, 0, 0)
     if mode[1] == 1:
-        points[0] += 2*mangeballe(couleur[0])
+        point[0] += 2*mangeballe(couleur[0], 9 + mode[2]*10)
     elif mode[1] == 2:
         point[0] += teamball(couleur[0])*6 -2
     elif mode[1] == 3:
-        pont[0] += 2* (casse_brique(couleur)+1) -2
+        temp = (casse_brique(couleur[0]))
+        if temp == 0:
+            point[0] -= 2
+        else:
+            point[0] += 2*temp
 
 def regle():
     mode[0] = 3
     if mode[1] == 0:
-        texte_niveau[0] = 'Veillez selectionnez un niveau'
+        texte_niveau[0] = 'Veillez selectionnez un jeu'
+        texte_niveau[1] = (240, 0, 0)
     if mode[1] == 1:
         regle1(couleur[1])
     elif mode[1] == 2:
         regle2(couleur[1], couleur[0])
     elif mode[1] == 3:
-        texte_niveau[0] = 'momentanément indisponible'
+        regle3()
 
 while True:
     if mode[0] == 0:
@@ -435,7 +454,8 @@ while True:
         regle()
     if mode[0] == 6:
         if mode[1] == 0:
-            texte_niveau[0] = 'Veillez selectionnez un niveau'
+            texte_niveau[0] = 'Veillez selectionnez un jeu'
+            texte_niveau[1] = (240, 0, 0)
             mode[0] = 3
         else:
             mode_level()
