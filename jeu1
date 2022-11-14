@@ -22,9 +22,11 @@ class Balle:
 def mangeballe(couleur, nbrballes = 10):
     multi = []
     for _ in range(nbrballes):
-        bal = Balle(randint(10, LARGEUR - 10), randint(10, HAUTEUR - 10), (randint(0, 255), randint(0, 255), randint(0, 255)), randint(-25, 25), randint(-25, 25), randint(8, 15))
+        bal = Balle(randint(10, LARGEUR - 10), randint(10, HAUTEUR - 10), (randint(0, 100), randint(0, 255), randint(0, 255)), randint(-25, 25), randint(-25, 25), randint(8, 15))
         multi.append(bal)
-    alldead = False
+    for _ in range(nbrballes // 10):
+        badbal = Balle(randint(10, 45), randint(10, 45), (255, 0, 0), 19, -15, nbrballes//3 + 3)
+        multi.append(badbal)
     vitesse = 50
     pygame.display.init()
     fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
@@ -64,10 +66,13 @@ def mangeballe(couleur, nbrballes = 10):
 
         for m in range(len(multi)):
             if ((maballe.x - multi[m].x)**2 + (maballe.y - multi[m].y)**2)**0.5 < maballe.rayon+multi[m].rayon:
-                maballe.rayon += multi[m].rayon // 2 #grossis
-                vitesse += multi[m].rayon #devient lent
-                pygame.key.set_repeat(vitesse)
-                multi[m].alive = False
+                if multi[m].couleur == (255, 0, 0):
+                    return defaite()
+                else:
+                    maballe.rayon += multi[m].rayon // 2 #grossis
+                    vitesse += multi[m].rayon #devient lent
+                    pygame.key.set_repeat(vitesse)
+                    multi[m].alive = False
         for balle in multi:
             if not balle.alive:
                 pygame.draw.circle(fenetre,(20,28,85),(balle.x, balle.y), balle.rayon) #supprime la balle
