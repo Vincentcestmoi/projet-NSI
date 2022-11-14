@@ -13,11 +13,13 @@ pygame.key.set_repeat(10)
 impact = pygame.font.SysFont('Impact', 60)
 little_impact = pygame.font.SysFont('Impact', 30)
 
-#mode, menu = 0, 
+#mode, menu = 0, jeu, difficulté 
 
-mode = [0, 0]
-niveau = ['Aucun niveau selectionné']
+mode = [0, 0, 0]
+niveau = ['Aucun niveau selectionné', 'facile']
 texte_niveau = ["Aucun niveau n'est sélectionné"]
+couleur = [(50, 100, 200), 'bleu']
+point = [0]
 
 hauteur = [800]
 longueur = [1500]
@@ -58,17 +60,19 @@ def mode_menu():
     bouton_menu = []
     play_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Jouer', 33)
     bouton_menu.append(play_button)
-    level_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Niveau', 3.669724771)
+    level_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Jeu', 3.669724771)
     bouton_menu.append(level_button)
-    help_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Aide', 1.941747573)
+    help_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Option de jeu', 1.941747573)
     bouton_menu.append(help_button)
     leave_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Quitter', 1.320132013)
     bouton_menu.append(leave_button)
     font = pygame.font.Font(pygame.font.get_default_font(), 25)
     text = font.render(texte_niveau[0], True, (0, 0, 0))
-    fenetre.blit(text, dest=(375, 140))
-    text = font.render(niveau[0], True, (0, 0, 0))
-    fenetre.blit(text, dest=(375, 80))
+    fenetre.blit(text, dest=(375, 100))
+    text = font.render(niveau[0] + '/ difficulté : '  + niveau[1], True, (0, 0, 0))
+    fenetre.blit(text, dest=(375, 40))
+    text = font.render('Vous avez actuellement ' + str(point[0]) + ' points', True, (0, 0, 0))
+    fenetre.blit(text, dest=(375, 160))
     
     for boutons in bouton_menu:
         boutons.adaptation_taille(hauteur[0], longueur[0])
@@ -99,7 +103,7 @@ def mode_menu():
             
     pygame.display.flip()
         
-def mode_level():
+def mode_jeu():
     fenetre = pygame.display.set_mode((1500, 800), )
     fenetre.fill([250, 250, 250])
     bouton_level = []
@@ -111,6 +115,23 @@ def mode_level():
     bouton_level.append(jeu3_button)
     return_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Retour', 1.320132013)
     bouton_level.append(return_button)
+    font = pygame.font.Font(pygame.font.get_default_font(), 25)
+    text = font.render('Glouton :', True, (0, 0, 0))
+    fenetre.blit(text, dest=(960, 40))
+    text = font.render('-victoire = 2 points', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 40))
+    text = font.render('Stratégo :', True, (0, 0, 0))
+    fenetre.blit(text, dest=(950, 120))
+    text = font.render('-victoire = 4 points', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 120))
+    text = font.render('-défaite = -2 points', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 150))
+    text = font.render('Casse brique :', True, (0, 0, 0))
+    fenetre.blit(text, dest=(895, 210))
+    text = font.render('-victoire = 2 points/vie', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 210))
+    text = font.render('-défaite = -2 points', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 240))
     
     for boutons in bouton_level:
         boutons.adaptation_taille(hauteur[0], longueur[0])
@@ -148,26 +169,254 @@ def mode_level():
             sys.exit()
             
     pygame.display.flip()
+    
+def mode_option():
+    fenetre = pygame.display.set_mode((1500, 800), )
+    fenetre.fill([250, 250, 250])
+    bouton_level = []
+    regle_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Regle', 33)
+    bouton_level.append(regle_button)
+    color_button = bouton(170, 300, 24, 218, couleur[0], 'Couleur', 3.669724771)
+    bouton_level.append(color_button)
+    level_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Difficultés', 1.941747573)
+    bouton_level.append(level_button)
+    return_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Retour', 1.320132013)
+    bouton_level.append(return_button)
+    font = pygame.font.Font(pygame.font.get_default_font(), 25)
+    text = font.render(texte_niveau[0], True, (0, 0, 0))
+    fenetre.blit(text, dest=(375, 140))
+    text = font.render(niveau[0] + '/ difficulté : '  + niveau[1], True, (0, 0, 0))
+    fenetre.blit(text, dest=(375, 80))
+    
+    for boutons in bouton_level:
+        boutons.adaptation_taille(hauteur[0], longueur[0])
+        boutons.apparition()
+        
+    for event in pygame.event.get() :
+        if event.type == pygame.VIDEORESIZE:
+            longueur[0], hauteur[0] = event.size
+        if event.type == MOUSEBUTTONUP:
+            if event.button == 1:
+                
+                if regle_button.rectangle.collidepoint(event.pos):
+                    mode[0] = 5
+                    
+                if color_button.rectangle.collidepoint(event.pos):
+                    mode[0] = 4
+                    
+                if level_button.rectangle.collidepoint(event.pos):
+                    mode[0] = 6 
+                    
+                if return_button.rectangle.collidepoint(event.pos):
+                     mode[0] = 0
+                     
+        if event.type == pygame.QUIT:
+            pygame.display.quit()
+            sys.exit()
+            
+    pygame.display.flip()
+    
+def mode_couleur():
+    fenetre = pygame.display.set_mode((1500, 800), )
+    fenetre.fill([250, 250, 250])
+    bouton_level = []
+    red_button = bouton(170, 300, 24, 24, (200, 0, 0), 'Rouge', 33)
+    bouton_level.append(red_button)
+    green_button = bouton(170, 300, 24, 218, (0, 200, 0), 'Vert', 3.669724771)
+    bouton_level.append(green_button)
+    blue_button = bouton(170, 300, 24, 412, (0, 0, 200), 'Bleu', 1.941747573)
+    bouton_level.append(blue_button)
+    gris_button = bouton(170, 300, 24, 606, (128, 128, 128), 'Gris', 1.320132013)
+    bouton_level.append(gris_button)
+    yellow_button = bouton(170, 300, 350, 24, (225, 225, 0), 'Jaune', 33)
+    bouton_level.append(yellow_button)
+    pink_button = bouton(170, 300, 350, 218, (225, 0, 225), 'Rose', 3.669724771)
+    bouton_level.append(pink_button)
+    cyan_button = bouton(170, 300, 350, 412, (0, 225, 225), 'Cyan', 1.941747573)
+    bouton_level.append(cyan_button)
+    black_button = bouton(170, 300, 350, 606, (15, 15, 15), 'Noir', 1.320132013)
+    bouton_level.append(black_button)
+    white_button = bouton(170, 300, 675, 24, (240, 240, 240), 'Blanc', 33)
+    bouton_level.append(white_button)
+    purple_button = bouton(170, 300, 675, 218, (160, 40, 160), 'Violet', 3.669724771)
+    bouton_level.append(purple_button)
+    turquoise_button = bouton(170, 300, 675, 412, (70, 200, 140), 'Turquoise', 1.941747573)
+    bouton_level.append(turquoise_button)
+    orange_button = bouton(170, 300, 675, 606, (255, 170, 0), 'Orange', 1.320132013)
+    bouton_level.append(orange_button)
+    return_button = bouton(170, 300, 1186, 606, (50, 100, 200), 'Retour', 1.320132013)
+    bouton_level.append(return_button)
+    
+    for boutons in bouton_level:
+        boutons.adaptation_taille(hauteur[0], longueur[0])
+        boutons.apparition()
+        
+    for event in pygame.event.get() :
+        if event.type == pygame.VIDEORESIZE:
+            longueur[0], hauteur[0] = event.size
+        if event.type == MOUSEBUTTONUP:
+            if event.button == 1:
+                
+                if red_button.rectangle.collidepoint(event.pos):
+                    mode[0] = 3
+                    couleur[0] = (255, 0, 0)
+                    couleur[1] = 'rouge'
+                    
+                if green_button.rectangle.collidepoint(event.pos):
+                    mode[0] = 3
+                    couleur[0] = (0, 255, 0)
+                    couleur[1] = 'verte'
+                    
+                if blue_button.rectangle.collidepoint(event.pos):
+                    mode[0] = 3
+                    couleur[0] = (0, 0, 255)
+                    couleur[1] = 'bleue'
+                    
+                if return_button.rectangle.collidepoint(event.pos):
+                     mode[0] = 3
+                
+                if pink_button.rectangle.collidepoint(event.pos):
+                    mode[0] = 3
+                    couleur[0] = (255, 0, 255)
+                    couleur[1] = 'rose'
+                    
+                if yellow_button.rectangle.collidepoint(event.pos):
+                    mode[0] = 3
+                    couleur[0] = (255, 255, 0)
+                    couleur[1] = 'jaune'
+                    
+                if cyan_button.rectangle.collidepoint(event.pos):
+                    mode[0] = 3
+                    couleur[0] = (0, 255, 255)
+                    couleur[1] = 'cyan'
+                    
+                if black_button.rectangle.collidepoint(event.pos):
+                     mode[0] = 3
+                     couleur[0] = (15, 15, 15)
+                     couleur[1] = 'noire'
+                
+                if gris_button.rectangle.collidepoint(event.pos):
+                     mode[0] = 3
+                     couleur[0] = (128, 128, 128)
+                     couleur[1] = 'gris'
+                
+                if white_button.rectangle.collidepoint(event.pos):
+                     mode[0] = 3
+                     couleur[0] = (240, 240, 240)
+                     couleur[1] = 'blanche'
+                
+                if purple_button.rectangle.collidepoint(event.pos):
+                     mode[0] = 3
+                     couleur[0] = (160, 40, 160)
+                     couleur[1] = 'violette'
+                     
+                if turquoise_button.rectangle.collidepoint(event.pos):
+                     mode[0] = 3
+                     couleur[0] = (70, 200, 140)
+                     couleur[1] = 'turquoise'
+                     
+                if orange_button.rectangle.collidepoint(event.pos):
+                     mode[0] = 3
+                     couleur[0] = (255, 170, 0)
+                     couleur[1] = 'Orange'
+                     
+        if event.type == pygame.QUIT:
+            pygame.display.quit()
+            sys.exit()
+            
+    pygame.display.flip()
+
+def mode_level():
+    fenetre = pygame.display.set_mode((1500, 800), )
+    fenetre.fill([250, 250, 250])
+    bouton_level = []
+    easy_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Facile', 33)
+    bouton_level.append(easy_button)
+    if point[0] > 9:
+        normal_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Moyen', 3.669724771)
+        bouton_level.append(normal_button)
+        hard_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Difficile', 1.941747573)
+        bouton_level.append(hard_button)
+    elif point[0] > 4:
+        normal_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Moyen', 3.669724771)
+        bouton_level.append(normal_button)
+        hard_button = bouton(170, 300, 24, 412, (250, 50, 50), 'Difficile', 1.941747573)
+        bouton_level.append(hard_button)
+    else:
+        normal_button = bouton(170, 300, 24, 218, (250, 50, 50), 'Moyen', 3.669724771)
+        bouton_level.append(normal_button)
+        hard_button = bouton(170, 300, 24, 412, (250, 50, 50), 'Difficile', 1.941747573)
+        bouton_level.append(hard_button)
+        
+    return_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Retour', 1.320132013)
+    bouton_level.append(return_button)
+    font = pygame.font.Font(pygame.font.get_default_font(), 25)
+    text = font.render(texte_niveau[0], True, (0, 0, 0))
+    fenetre.blit(text, dest=(375, 140))
+    text = font.render(niveau[0], True, (0, 0, 0))
+    fenetre.blit(text, dest=(375, 80))
+    
+    for boutons in bouton_level:
+        boutons.adaptation_taille(hauteur[0], longueur[0])
+        boutons.apparition()
+        
+    for event in pygame.event.get() :
+        if event.type == pygame.VIDEORESIZE:
+            longueur[0], hauteur[0] = event.size
+        if event.type == MOUSEBUTTONUP:
+            if event.button == 1:
+                
+                if easy_button.rectangle.collidepoint(event.pos):
+                    mode[2] = 0
+                    niveau[1] = 'facile'
+                    mode[0] = 3
+                    
+                if normal_button.rectangle.collidepoint(event.pos):
+                    if point[0] > 4:
+                        mode[2] = 1
+                        niveau[1] = 'moyen'
+                    else:
+                        text = font.render('Vous avez besoin de 5 point pour selectionner cette difficulter', True, (0, 0, 0))
+                        fenetre.blit(text, dest=(375, 80))
+                    mode[0] = 3
+                    
+                if hard_button.rectangle.collidepoint(event.pos):
+                    if point[0] > 9:
+                        mode[2] = 2
+                        niveau[1] = 'difficile'
+                    else:
+                        text = font.render('Vous avez besoin de 5 point pour selectionner cette difficulter', True, (0, 0, 0))
+                        fenetre.blit(text, dest=(375, 80))
+                    mode[0] = 3
+                    
+                if return_button.rectangle.collidepoint(event.pos):
+                     mode[0] = 3
+                     
+        if event.type == pygame.QUIT:
+            pygame.display.quit()
+            sys.exit()
+            
+    pygame.display.flip()
 
 def play():
     mode[0] = 0
     if mode[1] == 0:
         texte_niveau[0] = 'Veillez selectionnez un niveau'
     if mode[1] == 1:
-        mangeballe()
+        points[0] += 2*mangeballe(couleur[0])
     elif mode[1] == 2:
-        teamball()
+        point[0] += teamball(couleur[0])*6 -2
     elif mode[1] == 3:
-        texte_niveau[0] = 'momentanément indisponible'
+        pont[0] += 2* (casse_brique(couleur)+1) -2
 
-def aide():
-    mode[0] = 0
+def regle():
+    mode[0] = 3
     if mode[1] == 0:
         texte_niveau[0] = 'Veillez selectionnez un niveau'
     if mode[1] == 1:
-        regle1()
+        regle1(couleur[1])
     elif mode[1] == 2:
-        regle2()
+        regle2(couleur[1], couleur[0])
     elif mode[1] == 3:
         texte_niveau[0] = 'momentanément indisponible'
 
@@ -175,8 +424,18 @@ while True:
     if mode[0] == 0:
         mode_menu()
     if mode[0] == 1:
-        mode_level()
+        mode_jeu()
     if mode[0] == 2:
         play()
     if mode[0] == 3:
-        aide()
+        mode_option()
+    if mode[0] == 4:
+        mode_couleur()
+    if mode[0] == 5:
+        regle()
+    if mode[0] == 6:
+        if mode[1] == 0:
+            texte_niveau[0] = 'Veillez selectionnez un niveau'
+            mode[0] = 3
+        else:
+            mode_level()
