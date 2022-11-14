@@ -41,8 +41,8 @@ def casse_brique(couleur):
     x_balle = [750, 750]
     y_balle = [870]
     pas_deplacement = 7 
-    dx = [3]
-    dy = [3]
+    dx = [2]
+    dy = [2]
     vie = [3]
     def le_jeu_lvl1(couleur):
         fenetre.fill([250, 250, 250])
@@ -178,7 +178,7 @@ def casse_brique(couleur):
         
     while True :
         if mode[0] == 1:
-            le_jeu_lvl1()
+            le_jeu_lvl1(couleur)
         if mode[0] == 2:
             return defaite()   
         if mode[0] == 3:
