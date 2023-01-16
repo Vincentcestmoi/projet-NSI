@@ -1,0 +1,131 @@
+#jeu N°5
+import pygame, sys
+import time
+from annexe import *
+from random import randint
+from pygame.locals import *
+
+HAUTEUR = 800
+LARGEUR = 1500
+PAUSE = 0.05
+
+class Balle:
+    def __init__(self, abscisse, ordonnee, couleur, deplacement_abscisse, deplacement_ordonnee, rayon):
+        self.x = abscisse
+        self.y = ordonnee
+        self.couleur = couleur
+        self.dx = deplacement_abscisse
+        self.dy = deplacement_ordonnee
+        self.rayon = rayon
+        self.alive = True
+
+def shoot(couleur, difficulté = 0):
+    tir = [25, 0]
+    multi = []
+    tirs = []
+    balcolor = (255, 255, 255)
+    if couleur == (240, 240, 240):
+        balcolor = (25, 25, 255)
+    for _ in range(5 + difficulté*5):
+        bal = Balle(randint(10, LARGEUR - 10), randint(10, HAUTEUR - 10), balcolor, randint(10, 15), randint(10, 15), 10)
+        multi.append(bal)
+    vitesse = 50
+    pygame.display.init()
+    fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
+    fenetre.fill([20,28,85])
+    maballe = Balle(LARGEUR/2, HAUTEUR/2, couleur, None, None, 15)
+    pygame.key.set_repeat(vitesse)
+    
+    while len(multi) > 0:
+
+        for balle in multi:
+            pygame.draw.circle(fenetre,(20,28,85),(balle.x, balle.y), balle.rayon) #gomme
+            balle.x += balle.dx
+            balle.y += balle.dy
+            pygame.draw.circle(fenetre, balle.couleur, (balle.x, balle.y), balle.rayon)#dessine les balles
+            
+        for feu in tirs:
+            pygame.draw.circle(fenetre,(20,28,85),(feu.x, feu.y), feu.rayon) #gomme
+            feu.x += feu.dx
+            feu.y += feu.dy
+            pygame.draw.circle(fenetre, feu.couleur, (feu.x, feu.y), feu.rayon)#dessine les tirs
+            
+        pygame.draw.circle(fenetre,(20,28,85),(maballe.x, maballe.y), maballe.rayon) #gomme maballe
+
+        for event in pygame.event.get() :    
+            if event.type == KEYDOWN:
+
+                if event.key == K_DOWN or event.key == K_s:
+                    if maballe.y < HAUTEUR - 11:
+                        maballe.y += 10
+                        tir = [randint(-1, 1), 25]
+
+                if event.key == K_UP or event.key == K_z:
+                    if maballe.y > 11:
+                        maballe.y -= 10
+                        tir = [randint(-1, 1), -25]
+                
+                if event.key == K_RIGHT or event.key == K_d: 
+                    if maballe.x < LARGEUR - 11:
+                        maballe.x += 10
+                        tir = [25, randint(-1, 1)]
+
+                if event.key == K_LEFT or event.key == K_q: 
+                    if maballe.x > 11:
+                        maballe.x -= 10
+                        tir = [-25, randint(-1, 1)]
+                
+            if event.type == MOUSEBUTTONDOWN and event.button == 1 : #tir
+                baltir = Balle(maballe.x + tir[0], maballe.y + tir[1], (255, 0, 0), tir[0], tir[1], 5) #génère les tirs
+                tirs.append(baltir)
+
+        
+        pygame.draw.circle(fenetre, maballe.couleur, (maballe.x, maballe.y), maballe.rayon)#dessine la balle joueur
+
+        for m in range(len(multi)):
+            if ((maballe.x - multi[m].x)**2 + (maballe.y - multi[m].y)**2)**0.5 < maballe.rayon+multi[m].rayon: #collision avec la balle joueur
+                multi[m].dx *= -1 #change la direction des mini
+                multi[m].dy *= -1
+        
+        for feu in tirs:
+            if ((maballe.x - feu.x)**2 + (maballe.y - feu.y)**2)**0.5 < maballe.rayon + 2:
+                return defaite()
+                
+        for balle in multi:
+            for feu in tirs:
+                if ((feu.x - balle.x)**2 + (feu.y - balle.y)**2)**0.5 < feu.rayon+balle.rayon: #collision balle/tir
+                    pygame.draw.circle(fenetre,(20,28,85),(balle.x, balle.y), balle.rayon) #gomme
+                    pygame.draw.circle(fenetre,(20,28,85),(feu.x, feu.y), feu.rayon) #gomme
+                    balle.rayon = 0
+                    feu.rayon = 0
+            
+        for balle in multi:
+            if balle.rayon == 0:
+                multi.remove(balle)
+        for feu in tirs:
+            if feu.rayon == 0:
+                tirs.remove(feu)
+                    
+        for m in range(len(multi)):
+            for n in range(len(multi)):
+                if n < m:
+                    if ((multi[n].x - multi[m].x)**2 + (multi[n].y - multi[m].y)**2)**0.5 < multi[n].rayon+multi[n].rayon: #collisions
+                        multi[m].dx, multi[n].dx, multi[m].dy, multi[n].dy = multi[n].dx, multi[m].dx, multi[n].dy, multi[m].dy #changement de direction
+ 
+        for ball in multi+tirs: #frappe les bords
+            if ball.x > LARGEUR-10 or ball.x < 10:
+                ball.dx *= -1
+            if ball.y < 10 or ball.y > HAUTEUR-10:
+                ball.dy *= -1
+                
+                
+        pygame.display.update()
+    
+        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                sys.exit()
+                
+        time.sleep(PAUSE)
+    return victoire(difficulté + 1)
