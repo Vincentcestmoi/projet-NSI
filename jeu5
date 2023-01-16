@@ -58,22 +58,22 @@ def shoot(couleur, difficulté = 0):
                 if event.key == K_DOWN or event.key == K_s:
                     if maballe.y < HAUTEUR - 11:
                         maballe.y += 10
-                        tir = [randint(-1, 1), 25]
+                        tir = [randint(-2**difficulté, 2**difficulté), 25 + difficulté]
 
                 if event.key == K_UP or event.key == K_z:
                     if maballe.y > 11:
                         maballe.y -= 10
-                        tir = [randint(-1, 1), -25]
+                        tir = [randint(-2**difficulté, 2**difficulté), -25 - difficulté]
                 
                 if event.key == K_RIGHT or event.key == K_d: 
                     if maballe.x < LARGEUR - 11:
                         maballe.x += 10
-                        tir = [25, randint(-1, 1)]
+                        tir = [25 + difficulté, randint(-2**difficulté, 2**difficulté)]
 
                 if event.key == K_LEFT or event.key == K_q: 
                     if maballe.x > 11:
                         maballe.x -= 10
-                        tir = [-25, randint(-1, 1)]
+                        tir = [-25 - difficulté, randint(-2**difficulté, 2**difficulté)]
                 
             if event.type == MOUSEBUTTONDOWN and event.button == 1 : #tir
                 baltir = Balle(maballe.x + tir[0], maballe.y + tir[1], (255, 0, 0), tir[0], tir[1], 5) #génère les tirs
@@ -98,6 +98,13 @@ def shoot(couleur, difficulté = 0):
                     pygame.draw.circle(fenetre,(20,28,85),(feu.x, feu.y), feu.rayon) #gomme
                     balle.rayon = 0
                     feu.rayon = 0
+                    
+        if difficulté >= 2:
+            if randint(0, 39) == 0:
+                m = randint(0, len(multi)-1)
+                baltir = Balle(multi[m].x + 20, multi[m].y + 20, (255, 0, 0), multi[m].dx**0 * 25, multi[m].dy**0 * 25, 5) #génère les tirs
+                tirs.append(baltir)
+                
             
         for balle in multi:
             if balle.rayon == 0:
