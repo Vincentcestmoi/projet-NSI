@@ -151,7 +151,7 @@ def mode_jeu():
     fenetre.blit(text, dest=(1000, 480))
     text = font.render('une partie = 1 point', True, (0, 0, 0))
     fenetre.blit(text, dest=(1100, 480))
-    text = font.render('En augmentant la difficulté, vous changer les barème de point à vos risques et périls...', True, (125, 125, 125))
+    text = font.render('En augmentant la difficulté, vous changez le barème de point à vos risques et périls...', True, (125, 125, 125))
     fenetre.blit(text, dest=(400, 750))
     
     for boutons in bouton_level:
