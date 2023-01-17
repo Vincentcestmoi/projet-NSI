@@ -233,7 +233,7 @@ def regle5(couleur):
     fenetre.blit(text, dest=(20, 420))
     text = font.render("-Lorsque les tirs rouges touchent le mur, ils rebondissent", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 480))
-    text = font.render("-Attention !!! En montant la difficulté, les autres balles se mettent à tirer aléatoirement elles aussi !", True, (255, 0, 0))
+    text = font.render("-Attention !!! En montant la difficulté, les autres balles se mettent à tirer elles aussi, ont plus de vies, et les tirs vont plus vite !", True, (255, 0, 0))
     fenetre.blit(text, dest=(20, 540))
     text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
     fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
