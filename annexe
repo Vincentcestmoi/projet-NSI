@@ -227,7 +227,7 @@ def regle5(couleur):
     fenetre.blit(text, dest=(20, 240))
     text = font.render("-Lorsque les autres balles touchent le mur, se touchent ou vous touches, elles rebondissent", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 300))
-    text = font.render("-Lorsque les tirs rouges touchent une balles, elle lui enlève une vie et disparaissent, mais si elle vous touchent, vous perdez immédiatement", True, (0, 0, 0))
+    text = font.render("-Lorsque les tirs rouges touchent une balle, elle lui enlève une vie et disparaissent, mais si elle vous touchent, vous perdez immédiatement", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 360))
     text = font.render("-Plus une balle possède de vies, plus elle est claire", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 420))
