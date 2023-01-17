@@ -5,6 +5,7 @@ from annexe import *
 from trophee_jeu1 import *
 from trophee_jeu3 import *
 from trophee_jeu4 import *
+from trophee_jeu5 import *
 
 
 pygame.init()
@@ -14,10 +15,10 @@ pygame.key.set_repeat(10)
 impact = pygame.font.SysFont('Impact', 60)
 little_impact = pygame.font.SysFont('Impact', 30)
 
-#mode, menu = 0, jeu, difficulté 
+#mode, menu (= 0), jeu, difficulté 
 
 mode = [0, 0, 0]
-niveau = ['Aucun niveau selectionné', 'facile']
+niveau = ['Aucun niveau selectionné', 'normale']
 texte_niveau = ["Aucun niveau n'est sélectionné", (0,0,0)]
 couleur = [(50, 100, 200), 'bleu']
 point = [0]
@@ -28,7 +29,7 @@ longueur = [1500]
 
 #création fenetre
 pygame.display.set_caption("Test_Jeux")
-fenetre = pygame.display.set_mode((1500, 800), )
+fenetre = pygame.display.set_mode((1500, 800))
 position_fenetre = fenetre.get_rect()
 
 
@@ -115,30 +116,46 @@ def mode_jeu():
     bouton_level.append(jeu2_button)
     jeu3_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Casse brique', 1.941747573)
     bouton_level.append(jeu3_button)
+    jeu4_button = bouton(170, 300, 350, 24, (50, 100, 200), 'Pong', 1.941747573)
+    bouton_level.append(jeu4_button)
+    jeu5_button = bouton(170, 300, 350, 218, (50, 100, 200), 'Tir', 1)
+    bouton_level.append(jeu5_button)
     return_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Retour', 1.320132013)
     bouton_level.append(return_button)
     font = pygame.font.Font(pygame.font.get_default_font(), 25)
     text = font.render('Glouton :', True, (0, 0, 0))
     fenetre.blit(text, dest=(960, 40))
     text = font.render('-victoire = 2 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 40))
+    fenetre.blit(text, dest=(1100, 25))
     text = font.render('-défaite = -2 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 70))
+    fenetre.blit(text, dest=(1100, 55))
     text = font.render('Stratégo :', True, (0, 0, 0))
     fenetre.blit(text, dest=(950, 150))
     text = font.render('-victoire = 4 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 150))
+    fenetre.blit(text, dest=(1100, 135))
     text = font.render('-défaite = -2 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 180))
+    fenetre.blit(text, dest=(1100, 165))
     text = font.render('Casse brique :', True, (0, 0, 0))
     fenetre.blit(text, dest=(895, 260))
     text = font.render('-victoire = 2 points/vie', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 260))
+    fenetre.blit(text, dest=(1100, 245))
     text = font.render('-défaite = -2 points', True, (0, 0, 0))
-    fenetre.blit(text, dest=(1100, 290))
+    fenetre.blit(text, dest=(1100, 275))
+    text = font.render('Tir :', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1025, 370))
+    text = font.render('-victoire = 2 points', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 355))
+    text = font.render('-défaite = -2 points', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 385))
+    text = font.render('Pong :', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1000, 480))
+    text = font.render('une partie = 1 point', True, (0, 0, 0))
+    fenetre.blit(text, dest=(1100, 480))
+    text = font.render('En augmentant la difficulté, vous changer les barème de point à vos risques et périls...', True, (125, 125, 125))
+    fenetre.blit(text, dest=(400, 750))
     
     for boutons in bouton_level:
-        boutons.adaptation_taille(hauteur[0], longueur[0])
+        #boutons.adaptation_taille(hauteur[0], longueur[0])
         boutons.apparition()
         
     for event in pygame.event.get() :
@@ -166,6 +183,20 @@ def mode_jeu():
                     mode[0] = 0
                     niveau[0] = "casse brique"
                     texte_niveau[0] = "Un jeu de dextérité où vous devez cassez des briques sans perdre votre balles"
+                    texte_niveau[1] = (0, 0, 0)
+                
+                if jeu4_button.rectangle.collidepoint(event.pos):
+                    mode[1] = 4
+                    mode[0] = 0
+                    niveau[0] = "pong"
+                    texte_niveau[0] = "Un jeu de dextérité multijoueurs très classique"
+                    texte_niveau[1] = (0, 0, 0)
+                    
+                if jeu5_button.rectangle.collidepoint(event.pos):
+                    mode[1] = 5
+                    mode[0] = 0
+                    niveau[0] = "Tir"
+                    texte_niveau[0] = "Un jeu qui consiste à tirer sur les autres sans se faire tirer dessus"
                     texte_niveau[1] = (0, 0, 0)
                     
                 if return_button.rectangle.collidepoint(event.pos):
@@ -341,28 +372,28 @@ def mode_level():
     font = pygame.font.Font(pygame.font.get_default_font(), 25)
     text = font.render(refuspoint[0], True, (240, 0, 0))
     fenetre.blit(text, dest=(375, 180))
-    easy_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Facile', 33)
+    easy_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Normal', 33)
     bouton_level.append(easy_button)
     if point[0] > 9:
-        normal_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Moyen', 3.669724771)
+        normal_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Difficile', 3.669724771)
         bouton_level.append(normal_button)
-        hard_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Difficile', 1.941747573)
+        hard_button = bouton(170, 300, 24, 412, (50, 100, 200), 'Extreme', 1.941747573)
         bouton_level.append(hard_button)
     elif point[0] > 4:
-        normal_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Moyen', 3.669724771)
+        normal_button = bouton(170, 300, 24, 218, (50, 100, 200), 'Difficile', 3.669724771)
         bouton_level.append(normal_button)
-        hard_button = bouton(170, 300, 24, 412, (250, 50, 50), 'Difficile', 1.941747573)
+        hard_button = bouton(170, 300, 24, 412, (250, 50, 50), 'Extreme', 1.941747573)
         bouton_level.append(hard_button)
     else:
-        normal_button = bouton(170, 300, 24, 218, (250, 50, 50), 'Moyen', 3.669724771)
+        normal_button = bouton(170, 300, 24, 218, (250, 50, 50), 'Difficile', 3.669724771)
         bouton_level.append(normal_button)
-        hard_button = bouton(170, 300, 24, 412, (250, 50, 50), 'Difficile', 1.941747573)
+        hard_button = bouton(170, 300, 24, 412, (250, 50, 50), 'Extreme', 1.941747573)
         bouton_level.append(hard_button)
         
     return_button = bouton(170, 300, 24, 606, (50, 100, 200), 'Retour', 1.320132013)
     bouton_level.append(return_button)
     font = pygame.font.Font(pygame.font.get_default_font(), 25)
-    text = font.render(texte_niveau[0], True, (0, 0, 0))
+    text = font.render(texte_niveau[0], True, texte_niveau[1])
     fenetre.blit(text, dest=(375, 140))
     text = font.render(niveau[0], True, (0, 0, 0))
     fenetre.blit(text, dest=(375, 80))
@@ -379,14 +410,14 @@ def mode_level():
                 
                 if easy_button.rectangle.collidepoint(event.pos):
                     mode[2] = 0
-                    niveau[1] = 'facile'
+                    niveau[1] = 'normale'
                     mode[0] = 3
                     refuspoint[0] = ''
                     
                 if normal_button.rectangle.collidepoint(event.pos):
                     if point[0] > 4:
                         mode[2] = 1
-                        niveau[1] = 'moyen'
+                        niveau[1] = 'difficile'
                         mode[0] = 3
                         refuspoint[0] = ''
                     else:
@@ -395,7 +426,7 @@ def mode_level():
                 if hard_button.rectangle.collidepoint(event.pos):
                     if point[0] > 9:
                         mode[2] = 2
-                        niveau[1] = 'difficile'
+                        niveau[1] = 'extreme'
                         mode[0] = 3
                         refuspoint[0] = ''
                     else:
@@ -417,27 +448,35 @@ def play():
         texte_niveau[0] = 'Veillez selectionnez un jeu'
         texte_niveau[1] = (240, 0, 0)
     if mode[1] == 1:
-        point[0] += 2*mangeballe(couleur[0], 9 + mode[2]*10)
+        point[0] += 4*mangeballe(couleur[0], 9 + mode[2]*10) - 2*(mode[2] + 1)
     elif mode[1] == 2:
-        point[0] += teamball(couleur[0])*6 -2
+        point[0] += teamball(couleur[0], mode[2])*6 - 2*(mode[2] + 1)
     elif mode[1] == 3:
-        temp = (casse_brique(couleur[0]))
+        temp = (casse_brique(couleur[0], mode[2]))
         if temp == 0:
-            point[0] -= 2
+            point[0] -= 2 + randint(0, mode[2])
         else:
             point[0] += 2*temp
+    elif mode[1] == 4:
+        pass
+    elif mode[1] == 5:
+        point[0] += shoot(couleur[0], mode[2])*4 - 2*(mode[2] + 1)
 
 def regle():
     mode[0] = 3
     if mode[1] == 0:
         texte_niveau[0] = 'Veillez selectionnez un jeu'
-        texte_niveau[1] = (240, 0, 0)
+        texte_niveau[1] = (230, 0, 0)
     if mode[1] == 1:
         regle1(couleur[1])
     elif mode[1] == 2:
         regle2(couleur[1], couleur[0])
     elif mode[1] == 3:
         regle3()
+    elif mode[1] == 4:
+        regle4()
+    elif mode[1] == 5:
+        regle5(couleur[1])
 
 while True:
     if mode[0] == 0:
@@ -453,9 +492,4 @@ while True:
     if mode[0] == 5:
         regle()
     if mode[0] == 6:
-        if mode[1] == 0:
-            texte_niveau[0] = 'Veillez selectionnez un jeu'
-            texte_niveau[1] = (240, 0, 0)
-            mode[0] = 3
-        else:
-            mode_level()
+        mode_level()
