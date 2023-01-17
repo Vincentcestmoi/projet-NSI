@@ -152,6 +152,8 @@ def regle3():
     fenetre.blit(text, dest=(20, 480))
     text = font.render("-Votre but est de detruire toutes les briques", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 540))
+    text = font.render("-Attention, en montant la difficulté, vous commencez la partie avec moins de vies !", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 600))
     text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
     fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
     pygame.display.update()
@@ -166,3 +168,82 @@ def regle3():
                 return None
                 
 pygame.display.quit()
+
+def regle4():
+    pygame.init()
+    HAUTEUR = 800
+    LARGEUR = 1500
+    pygame.display.init()
+    fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
+    fenetre.fill([25, 225, 225])
+    font = pygame.font.Font(pygame.font.get_default_font(), 50)
+    text = font.render("REGLES :", True, (255, 0, 0))
+    fenetre.blit(text, dest=(720, 20))
+    font = pygame.font.Font(pygame.font.get_default_font(), 20)
+    text = font.render("-Ce jeu est conçu pour être joué à deux", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 120))
+    text = font.render("-Votre but est de faire parvenir la balle derrière la plate-forme adverse", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 180))
+    text = font.render("-Le joueur de gauche se dirige avec les touches Z et S, celui de droite avec les fleches haut et bas", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 240))
+    text = font.render("-Lorsque la balle touche le mur ou une plate-forme, elle rebondit", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 300))
+    text = font.render("-Chaque fois que la balle passe derriere la plate-fort d'un joueur, son adversaire gagne un point et la balle réapparait au milieu", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 360))
+    text = font.render("-Une partie se joue en 10 points", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 420))
+    text = font.render("-En montant la difficulté, la balle bouge plus vite", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 480))
+    text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
+    fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
+    pygame.display.update()
+    while True:
+        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                sys.exit()
+        for event in pygame.event.get() : #lancer le jeu    
+            if event.type == KEYDOWN:
+                return None
+            
+def regle5(couleur):
+    pygame.init()
+    HAUTEUR = 800
+    LARGEUR = 1500
+    pygame.display.init()
+    fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
+    fenetre.fill([25, 225, 225])
+    font = pygame.font.Font(pygame.font.get_default_font(), 50)
+    text = font.render("REGLES :", True, (255, 0, 0))
+    fenetre.blit(text, dest=(680, 20))
+    font = pygame.font.Font(pygame.font.get_default_font(), 20)
+    sysD = "-Vous incarnez une balle " + str(couleur) + " qui se déplace avec les flèches directionnelles ou les touches ZQSD"
+    text = font.render(sysD, True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 120))
+    text = font.render("-Votre but est de détruire toutes les autres balles", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 180))
+    text = font.render("-A chaque fois que vous appuyez sur la face gauche de la souris, vous tirez un projectile rouge", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 240))
+    text = font.render("-Lorsque les autres balles touchent le mur, se touchent ou vous touches, elles rebondissent", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 300))
+    text = font.render("-Lorsque les tirs rouges touchent une balles, elle lui enlève une vie et disparaissent, mais si elle vous touchent, vous perdez immédiatement", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 360))
+    text = font.render("-Plus une balle possède de vies, plus elle est claire", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 420))
+    text = font.render("-Lorsque les tirs rouges touchent le mur, ils rebondissent", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 480))
+    text = font.render("-Attention !!! En montant la difficulté, les autres balles se mettent à tirer aléatoirement elles aussi !", True, (255, 0, 0))
+    fenetre.blit(text, dest=(20, 540))
+    text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
+    fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
+    pygame.display.update()
+    while True:
+        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                sys.exit()
+        for event in pygame.event.get() : #lancer le jeu    
+            if event.type == KEYDOWN:
+                return None
