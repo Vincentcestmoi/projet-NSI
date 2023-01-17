@@ -99,8 +99,8 @@ def shoot(couleur, difficulte = 0):
                     balle.couleur = (balle.couleur[0] -85, balle.couleur[1] -85, balle.couleur[2] -85) #change la couleur pour mieux visialiser la vie
                     feu.alive = 0 #disparait
                     
-        if difficulte >= 2:
-            if randint(0, 39) == 0:
+        if difficulte > 0:
+            if randint(0, 80//difficulte) == 0:
                 m = randint(0, len(multi)-1)
                 baltir = Balle(multi[m].x + 20, multi[m].y + 20, (255, 0, 0), multi[m].dx**0 * 25, multi[m].dy**0 * 25, 5, 1) #génère les tirs
                 tirs.append(baltir)
