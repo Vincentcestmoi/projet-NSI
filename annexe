@@ -1,7 +1,27 @@
 #annexe
 import pygame, sys
 from pygame.locals import *
-fenetre = pygame.display.set_mode((1500, 800), )
+fenetre = pygame.display.set_mode((1500, 800))
+pygame.init()
+pygame.key.set_repeat(10)
+impact = pygame.font.SysFont('Impact', 60)
+little_impact = pygame.font.SysFont('Impact', 30)
+
+class bouton:
+    def __init__(self, hauteur, longueur, x, y, couleur, texte):
+        self.hauteur = hauteur
+        self.longueur = longueur
+        self.x = x
+        self.y = y
+        self.couleur = couleur
+        self.texte = texte
+        self.rectangle = pygame.draw.rect(fenetre, self.couleur, (self.x, self.y, self.longueur, self.hauteur))
+        
+    def apparition(self): 
+        pygame.draw.rect(fenetre, self.couleur, (self.x, self.y, self.longueur, self.hauteur))
+        text = impact.render(self.texte, True, (0,0,0))
+        text_rect = text.get_rect(center=(self.x + self.longueur/2, self.y + self.hauteur/2))
+        fenetre.blit(text, text_rect)
 
 
 def victoire(multi = 1):
@@ -14,31 +34,42 @@ def victoire(multi = 1):
         fenetre.fill([20,28,85])
         font = pygame.font.Font(pygame.font.get_default_font(), 50)
         text = font.render("VICTOIRE !!!", True, (255, 120, 20))
-        fenetre.blit(text, dest=(LARGEUR/2 - 150,HAUTEUR/2 - 5))
-        pygame.display.update()
-        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return multi
-
+        fenetre.blit(text, dest=(LARGEUR/2 - 150,HAUTEUR/2 - 150))
+        pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR/2 - 50, (50, 100, 200), 'Continuer')
+        pass_button.apparition()
+        for event in pygame.event.get() :
+            if event.type == pygame.QUIT:       #routine pour pouvoir fermer «proprement» la fenêtre Pygame
+                pygame.display.quit()
+                sys.exit()
+            if event.type == MOUSEBUTTONUP:
+                if event.button == 1:
+                    if pass_button.rectangle.collidepoint(event.pos):
+                        return multi
+        pygame.display.flip()
+       
 
 def defaite():
-    pygame.init()
-    HAUTEUR = 800
-    LARGEUR = 1500
-    pygame.display.init()
-    fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
-    fenetre.fill([15, 15, 15])
-    font = pygame.font.Font(pygame.font.get_default_font(), 50)
-    text = font.render("DEFAITE", True, (255, 0, 0))
-    fenetre.blit(text, dest=(LARGEUR/2 - 120,HAUTEUR/2))
-    pygame.display.update()
     while True:
-        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return 0
-
+        pygame.init()
+        HAUTEUR = 800
+        LARGEUR = 1500
+        pygame.display.init()
+        fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
+        fenetre.fill([15, 15, 15])
+        font = pygame.font.Font(pygame.font.get_default_font(), 50)
+        text = font.render("DEFAITE", True, (255, 0, 0))
+        fenetre.blit(text, dest=(LARGEUR/2 - 120, HAUTEUR/2 - 100))
+        pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR/2, (50, 100, 200), 'Continuer')
+        pass_button.apparition()
+        for event in pygame.event.get() :
+            if event.type == pygame.QUIT:       #routine pour pouvoir fermer «proprement» la fenêtre Pygame
+                pygame.display.quit()
+                sys.exit()
+            if event.type == MOUSEBUTTONUP:
+                if event.button == 1:
+                    if pass_button.rectangle.collidepoint(event.pos):
+                        return 0
+        pygame.display.flip()
 
 def regle1(couleur):
     pygame.init()
@@ -71,7 +102,7 @@ def regle1(couleur):
             if event.type == pygame.QUIT:
                 pygame.display.quit()
                 sys.exit()
-        for event in pygame.event.get() : #lancer le jeu    
+        for event in pygame.event.get() : #retour au menu  
             if event.type == KEYDOWN:
                 return None
 
@@ -123,7 +154,7 @@ def regle2(couleurtexte, couleur):
             if event.type == pygame.QUIT:
                 pygame.display.quit()
                 sys.exit()
-        for event in pygame.event.get() : #lancer le jeu    
+        for event in pygame.event.get() : #retour au menu    
             if event.type == KEYDOWN:
                 return None
 
@@ -163,11 +194,10 @@ def regle3():
             if event.type == pygame.QUIT:
                 pygame.display.quit()
                 sys.exit()
-        for event in pygame.event.get() : #lancer le jeu    
+        for event in pygame.event.get() : #retour au menu   
             if event.type == KEYDOWN:
                 return None
                 
-pygame.display.quit()
 
 def regle4():
     pygame.init()
@@ -203,7 +233,7 @@ def regle4():
             if event.type == pygame.QUIT:
                 pygame.display.quit()
                 sys.exit()
-        for event in pygame.event.get() : #lancer le jeu    
+        for event in pygame.event.get() : #retour au menu    
             if event.type == KEYDOWN:
                 return None
             
@@ -226,15 +256,17 @@ def regle5(couleur):
     text = font.render("-A chaque fois que vous appuyez sur la face gauche de la souris, vous tirez un projectile rouge", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 240))
     text = font.render("-Lorsque les autres balles touchent le mur, se touchent ou vous touches, elles rebondissent", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 300))
-    text = font.render("-Lorsque les tirs rouges touchent une balle, elle lui enlève une vie et disparaissent, mais si elle vous touchent, vous perdez immédiatement", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 360))
-    text = font.render("-Plus une balle possède de vies, plus elle est claire", True, (0, 0, 0))
+    text = font.render("-Lorsque les tirs rouges touchent une balle, elle lui enlève une vie et disparaissent, mais si elle vous touchent, vous perdez immédiatement", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 420))
-    text = font.render("-Lorsque les tirs rouges touchent le mur, ils rebondissent", True, (0, 0, 0))
+    text = font.render("-Plus une balle possède de vies, plus elle est claire", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 480))
-    text = font.render("-Attention !!! En montant la difficulté, les autres balles se mettent à tirer elles aussi, ont plus de vies, et les tirs vont plus vite !", True, (255, 0, 0))
+    text = font.render("-Lorsque les tirs rouges touchent le mur, ils rebondissent", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 540))
+    text = font.render("-Le rond noir sur votre balle est votre viseur, il indique dans quelle direction partent vos tirs", True, (0, 0, 0))
+    fenetre.blit(text, dest=(20, 300))
+    text = font.render("-Attention !!! En montant la difficulté, les autres balles se mettent à tirer elles aussi, ont plus de vies, et les tirs vont plus vite !", True, (255, 0, 0))
+    fenetre.blit(text, dest=(20, 600))
     text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
     fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
     pygame.display.update()
@@ -244,6 +276,6 @@ def regle5(couleur):
             if event.type == pygame.QUIT:
                 pygame.display.quit()
                 sys.exit()
-        for event in pygame.event.get() : #lancer le jeu    
+        for event in pygame.event.get() : #retour au menu
             if event.type == KEYDOWN:
                 return None
