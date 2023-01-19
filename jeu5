@@ -9,6 +9,14 @@ HAUTEUR = 800
 LARGEUR = 1500
 PAUSE = 0.05
 
+def abso(n):
+    return (n**2)**0.5
+
+def diviz(n1, n2):
+    if n2 <= 4 and n2 >= -4:
+        return 0
+    return int(n1//n2)
+
 class Balle:
     def __init__(self, abscisse, ordonnee, couleur, deplacement_abscisse, deplacement_ordonnee, rayon, vie):
         self.x = abscisse
@@ -33,7 +41,7 @@ def shoot(couleur, difficulte = 0):
     pygame.display.init()
     fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
     fenetre.fill([20,28,85])
-    maballe = Balle(LARGEUR/2, HAUTEUR/2, couleur, None, None, 15, True)
+    maballe = Balle(LARGEUR/2, HAUTEUR/2, couleur, None, None, 14, True)
     pygame.key.set_repeat(vitesse)
     
     while len(multi) > 0:
@@ -81,6 +89,7 @@ def shoot(couleur, difficulte = 0):
 
         
         pygame.draw.circle(fenetre, maballe.couleur, (maballe.x, maballe.y), maballe.rayon)#dessine la balle joueur
+        pygame.draw.circle(fenetre, (0, 0, 0), (maballe.x + diviz(tir[0], abso(tir[0]))*7, maballe.y + diviz(tir[1], abso(tir[1]))*7), 5)#dessine le viseur
 
         for m in range(len(multi)):
             if ((maballe.x - multi[m].x)**2 + (maballe.y - multi[m].y)**2)**0.5 < maballe.rayon+multi[m].rayon: #collision avec le joueur
