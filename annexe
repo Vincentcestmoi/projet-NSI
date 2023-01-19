@@ -17,9 +17,9 @@ class bouton:
         self.texte = texte
         self.rectangle = pygame.draw.rect(fenetre, self.couleur, (self.x, self.y, self.longueur, self.hauteur))
         
-    def apparition(self): 
+    def apparition(self, a=0, b=0, c=0): 
         pygame.draw.rect(fenetre, self.couleur, (self.x, self.y, self.longueur, self.hauteur))
-        text = impact.render(self.texte, True, (0,0,0))
+        text = impact.render(self.texte, True, (a,b,c))
         text_rect = text.get_rect(center=(self.x + self.longueur/2, self.y + self.hauteur/2))
         fenetre.blit(text, text_rect)
 
@@ -36,7 +36,7 @@ def victoire(multi = 1):
         text = font.render("VICTOIRE !!!", True, (255, 120, 20))
         fenetre.blit(text, dest=(LARGEUR/2 - 150,HAUTEUR/2 - 150))
         pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR/2 - 50, (50, 100, 200), 'Continuer')
-        pass_button.apparition()
+        pass_button.apparition(255, 255, 75)
         for event in pygame.event.get() :
             if event.type == pygame.QUIT:       #routine pour pouvoir fermer «proprement» la fenêtre Pygame
                 pygame.display.quit()
@@ -59,8 +59,8 @@ def defaite():
         font = pygame.font.Font(pygame.font.get_default_font(), 50)
         text = font.render("DEFAITE", True, (255, 0, 0))
         fenetre.blit(text, dest=(LARGEUR/2 - 120, HAUTEUR/2 - 100))
-        pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR/2, (50, 100, 200), 'Continuer')
-        pass_button.apparition()
+        pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR/2, (150, 0, 0), 'Continuer')
+        pass_button.apparition(255)
         for event in pygame.event.get() :
             if event.type == pygame.QUIT:       #routine pour pouvoir fermer «proprement» la fenêtre Pygame
                 pygame.display.quit()
