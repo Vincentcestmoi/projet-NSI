@@ -37,12 +37,11 @@ def shoot(couleur, difficulte = 0):
     for _ in range(5 + difficulte*5):
         bal = Balle(randint(10, LARGEUR - 10), randint(10, HAUTEUR - 10), balcolor, randint(10, 15), randint(10, 15), 10, difficulte + 1)
         multi.append(bal)
-    vitesse = 50
     pygame.display.init()
     fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
     fenetre.fill([20,28,85])
     maballe = Balle(LARGEUR/2, HAUTEUR/2, couleur, None, None, 14, True)
-    pygame.key.set_repeat(vitesse)
+    pygame.key.set_repeat(50)
     
     while len(multi) > 0:
 
