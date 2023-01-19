@@ -58,22 +58,22 @@ def casse_brique(couleur, difficulte = 0):
         for brique in liste_brique:
             brique.apparition()
             
-        barre_joueur = pygame.draw.rect(fenetre, (100, 100, 250), (x_barre[0], y_barre[0], 100, 20)) 
+        barre_joueur = pygame.draw.rect(fenetre, (100, 100, 250), (x_barre[0], y_barre[0], 100 - 20*difficulte, 20)) 
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.display.quit()
                 sys.exit()
             if event.type == KEYDOWN:
-                if event.key == K_d:
+                if event.key == K_d or event.key == K_RIGHT:
                     if x_barre[0] < 1110:
                         x_barre[0] += pas_deplacement
                                
-                if event.key == K_q :
+                if event.key == K_q or event.key == K_LEFT:
                     if x_barre[0] > 256:
                         x_barre[0] -= pas_deplacement
                         
-        if x_balle[0] >= 1215 or x_balle[0] <= 250:
+        if x_balle[0] >= 1215 or x_balle[0] <= 250: #collision latérale
             dx[0] = -dx[0]
         if y_balle[0] <= 0:
             dy[0] = -dy[0]
@@ -82,18 +82,25 @@ def casse_brique(couleur, difficulte = 0):
             if brique.rectangle.collidepoint(x_balle[0] + 10, y_balle[0]):
                 dx[0] = dx[0]
                 dy[0] = -dy[0]
+                pygame.draw.rect(fenetre, (250, 250, 250), (brique.x, brique.y, brique.longueur, brique.hauteur)) #gomme
                 liste_brique.remove(brique)
+                
             elif brique.rectangle.collidepoint(x_balle[0] - 10, y_balle[0]):
                 dx[0] = dx[0]
                 dy[0] = -dy[0]
+                pygame.draw.rect(fenetre, (250, 250, 250), (brique.x, brique.y, brique.longueur, brique.hauteur)) #gomme
                 liste_brique.remove(brique)
+                
             elif brique.rectangle.collidepoint(x_balle[0], y_balle[0] + 10):
                 dx[0] = dx[0]
                 dy[0] = -dy[0]
+                pygame.draw.rect(fenetre, (250, 250, 250), (brique.x, brique.y, brique.longueur, brique.hauteur)) #gomme
                 liste_brique.remove(brique)
+                
             elif brique.rectangle.collidepoint(x_balle[0], y_balle[0] - 10):
                 dx[0] = dx[0]
                 dy[0] = -dy[0]
+                pygame.draw.rect(fenetre, (250, 250, 250), (brique.x, brique.y, brique.longueur, brique.hauteur)) #gomme
                 liste_brique.remove(brique)
         
         if dx[0] < 0:
