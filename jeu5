@@ -89,7 +89,7 @@ def shoot(couleur, difficulte = 0):
 
         
         pygame.draw.circle(fenetre, maballe.couleur, (maballe.x, maballe.y), maballe.rayon)#dessine la balle joueur
-        pygame.draw.circle(fenetre, (0, 0, 0), (maballe.x + diviz(tir[0], abso(tir[0]))*7, maballe.y + diviz(tir[1], abso(tir[1]))*7), 5)#dessine le viseur
+        pygame.draw.circle(fenetre, (25, 25, 25), (maballe.x + diviz(tir[0], abso(tir[0]))*7, maballe.y + diviz(tir[1], abso(tir[1]))*7), 5)#dessine le viseur
 
         for m in range(len(multi)):
             if ((maballe.x - multi[m].x)**2 + (maballe.y - multi[m].y)**2)**0.5 < maballe.rayon+multi[m].rayon: #collision avec le joueur
