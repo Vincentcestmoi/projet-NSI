@@ -93,18 +93,19 @@ def regle1(couleur):
     fenetre.blit(text, dest=(20, 300))
     text = font.render("-Attention !! En montant la difficulté, des balles rouges apparaissent, si elle vous touchent, vous perdez", True, (250, 0, 0))
     fenetre.blit(text, dest=(20, 360))
-    text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
-    fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
     pygame.display.update()
+    pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR - 300, (50, 100, 200), 'Continuer')
+    pass_button.apparition()
     while True:
-        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for event in pygame.event.get() :
+            if event.type == pygame.QUIT:       #routine pour pouvoir fermer «proprement» la fenêtre Pygame
                 pygame.display.quit()
                 sys.exit()
-        for event in pygame.event.get() : #retour au menu  
-            if event.type == KEYDOWN:
-                return None
+            if event.type == MOUSEBUTTONUP:
+                if event.button == 1:
+                    if pass_button.rectangle.collidepoint(event.pos):
+                        return None
+        pygame.display.flip()
 
 def regle2(couleurtexte, couleur):
     pygame.init()
@@ -145,18 +146,19 @@ def regle2(couleurtexte, couleur):
     pygame.draw.circle(fenetre, (125, 125, 125), (850, 600), 15)
     text = font.render("Obstacle", True, (255, 0, 0))
     fenetre.blit(text, dest=(810, 560))
-    text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
-    fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
     pygame.display.update()
+    pass_button = bouton(170, 300, LARGEUR - 500, HAUTEUR - 250, (50, 100, 200), 'Continuer')
+    pass_button.apparition()
     while True:
-        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for event in pygame.event.get() :
+            if event.type == pygame.QUIT:       #routine pour pouvoir fermer «proprement» la fenêtre Pygame
                 pygame.display.quit()
                 sys.exit()
-        for event in pygame.event.get() : #retour au menu    
-            if event.type == KEYDOWN:
-                return None
+            if event.type == MOUSEBUTTONUP:
+                if event.button == 1:
+                    if pass_button.rectangle.collidepoint(event.pos):
+                        return None
+        pygame.display.flip()
 
 def regle3():
     pygame.init()
@@ -170,34 +172,34 @@ def regle3():
     fenetre.blit(text, dest=(720, 20))
     font = pygame.font.Font(pygame.font.get_default_font(), 20)
     text = font.render("-Vous incarnez une plateforme qui se déplace avec les touches Q et D", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 180))
+    fenetre.blit(text, dest=(20, 100))
     text = font.render("-Le plafond est couvert de briques et une balle parcourt le terrain", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 240))
+    fenetre.blit(text, dest=(20, 160))
     text = font.render("-Lorsque la balle touche le mur ou votre plateforme, elle rebondit", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 300))
+    fenetre.blit(text, dest=(20, 220))
     text = font.render("-Lorsque la balle touche une brique, elle détruit la brique et rebondit", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 360))
+    fenetre.blit(text, dest=(20, 280))
     text = font.render("-Lorsque la balles passe sous votre plateforme, elle réapparait sur votre plateforme et vous perdez une vie", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 420))
+    fenetre.blit(text, dest=(20, 340))
     text = font.render("-Vous possédez 3 vies, quand elles sont épuissée, vous perdez", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 480))
+    fenetre.blit(text, dest=(20, 400))
     text = font.render("-Votre but est de détruire toutes les briques", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 540))
+    fenetre.blit(text, dest=(20, 460))
     text = font.render("-Attention, en montant la difficulté, vous commencez la partie avec moins de vies !", True, (0, 0, 0))
-    fenetre.blit(text, dest=(20, 600))
-    text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
-    fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
+    fenetre.blit(text, dest=(20, 520))
     pygame.display.update()
+    pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR - 200, (50, 100, 200), 'Continuer')
+    pass_button.apparition()
     while True:
-        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for event in pygame.event.get() :
+            if event.type == pygame.QUIT:       #routine pour pouvoir fermer «proprement» la fenêtre Pygame
                 pygame.display.quit()
                 sys.exit()
-        for event in pygame.event.get() : #retour au menu   
-            if event.type == KEYDOWN:
-                return None
-                
+            if event.type == MOUSEBUTTONUP:
+                if event.button == 1:
+                    if pass_button.rectangle.collidepoint(event.pos):
+                        return None
+        pygame.display.flip()           
 
 def regle4():
     pygame.init()
@@ -224,19 +226,20 @@ def regle4():
     fenetre.blit(text, dest=(20, 420))
     text = font.render("-En montant la difficulté, la balle bouge plus vite", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 480))
-    text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
-    fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
     pygame.display.update()
+    pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR - 250, (50, 100, 200), 'Continuer')
+    pass_button.apparition()
     while True:
-        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for event in pygame.event.get() :
+            if event.type == pygame.QUIT:       #routine pour pouvoir fermer «proprement» la fenêtre Pygame
                 pygame.display.quit()
                 sys.exit()
-        for event in pygame.event.get() : #retour au menu    
-            if event.type == KEYDOWN:
-                return None
-            
+            if event.type == MOUSEBUTTONUP:
+                if event.button == 1:
+                    if pass_button.rectangle.collidepoint(event.pos):
+                        return None
+        pygame.display.flip()
+
 def regle5(couleur):
     pygame.init()
     HAUTEUR = 800
@@ -267,15 +270,16 @@ def regle5(couleur):
     fenetre.blit(text, dest=(20, 300))
     text = font.render("-Attention !!! En montant la difficulté, les autres balles se mettent à tirer elles aussi, ont plus de vies, et les tirs vont plus vite !", True, (255, 0, 0))
     fenetre.blit(text, dest=(20, 600))
-    text = font.render("Appuyer sur n'importe quelle touche pour continuer", True, (0, 0, 0))
-    fenetre.blit(text, dest=(LARGEUR//4, HAUTEUR - 50))
     pygame.display.update()
+    pass_button = bouton(140, 300, LARGEUR/2 -150, HAUTEUR - 150, (50, 100, 200), 'Continuer')
+    pass_button.apparition()
     while True:
-        # routine pour pouvoir fermer «proprement» la fenêtre Pygame
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for event in pygame.event.get() :
+            if event.type == pygame.QUIT:       #routine pour pouvoir fermer «proprement» la fenêtre Pygame
                 pygame.display.quit()
                 sys.exit()
-        for event in pygame.event.get() : #retour au menu
-            if event.type == KEYDOWN:
-                return None
+            if event.type == MOUSEBUTTONUP:
+                if event.button == 1:
+                    if pass_button.rectangle.collidepoint(event.pos):
+                        return None
+        pygame.display.flip()
