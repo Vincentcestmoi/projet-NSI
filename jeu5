@@ -31,7 +31,7 @@ def shoot(couleur, difficulte = 0):
     tir = [25, 0]
     multi = []
     tirs = []
-    balcolor = (85* (difficulte+1), 85* (difficulte+1), 85* (difficulte+1))
+    balcolor = ((85* (difficulte+1) )% 255, (85* (difficulte+1) )% 255, (85* (difficulte+1) )% 255)
     if couleur == (240, 240, 240) or couleur == (128, 128, 128) or couleur == (15, 15, 15):
         balcolor = (200, 220, 170)
     for _ in range(5 + difficulte*5):
@@ -104,7 +104,7 @@ def shoot(couleur, difficulte = 0):
                 if ((feu.x - balle.x)**2 + (feu.y - balle.y)**2)**0.5 < feu.rayon+balle.rayon: #collision balle/tir 
                     pygame.draw.circle(fenetre,(20,28,85),(feu.x, feu.y), feu.rayon) #gomme
                     balle.alive -= 1 #la balle perd une vie
-                    balle.couleur = (balle.couleur[0] -85, balle.couleur[1] -85, balle.couleur[2] -85) #change la couleur pour mieux visialiser la vie
+                    balle.couleur = ((balle.couleur[0] -85) % 255, (balle.couleur[1] -85) % 255, (balle.couleur[2] -85) % 255) #change la couleur pour mieux visialiser la vie
                     feu.alive = 0 #disparait
                     
         if difficulte > 0:
@@ -115,7 +115,7 @@ def shoot(couleur, difficulte = 0):
                 
             
         for balle in multi:
-            if not balle.alive:
+            if balle.alive < 1:
                 multi.remove(balle)
                 pygame.draw.circle(fenetre,(20,28,85),(balle.x, balle.y), balle.rayon) #gomme
         for feu in tirs:
