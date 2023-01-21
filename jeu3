@@ -190,4 +190,4 @@ def casse_brique(couleur, difficulte = 0):
         if mode[0] == 2:
             return defaite()   
         if mode[0] == 3:
-            return victoire(vie[0])
+            return victoire(vie[0] * (difficulte*2 +1))
