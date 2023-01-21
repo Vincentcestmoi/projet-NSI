@@ -356,7 +356,7 @@ def mode_couleur():
                 if orange_button.rectangle.collidepoint(event.pos):
                      mode[0] = 3
                      couleur[0] = (255, 170, 0)
-                     couleur[1] = 'Orange'
+                     couleur[1] = 'orange'
                      
         if event.type == pygame.QUIT:
             pygame.display.quit()
