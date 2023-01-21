@@ -117,7 +117,7 @@ def teamball(couleur, difficulte):
                     balle.explose(fenetre, couleur)
                     if balle in multi_joueur:
                         return defaite()
-                    return victoire()
+                    return victoire(difficulte+1)
                 if balle in multi_joueur:
                     multi_joueur.remove(balle)
                 else:
@@ -138,7 +138,7 @@ def teamball(couleur, difficulte):
                     elif red.rayon == 50 and color.rayon != 50: #reine rouge
                         red.explose(fenetre, couleur)
                         time.sleep(0.5)
-                        return victoire()
+                        return victoire(difficulte+1)
                     else:
                         red.explose(fenetre, couleur)
                         color.explose(fenetre, couleur)
