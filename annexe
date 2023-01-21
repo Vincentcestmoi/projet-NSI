@@ -94,7 +94,7 @@ def regle1(couleur):
     text = font.render("-Attention !! En montant la difficulté, des balles rouges apparaissent, si elle vous touchent, vous perdez", True, (250, 0, 0))
     fenetre.blit(text, dest=(20, 360))
     pygame.display.update()
-    pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR - 300, (50, 100, 200), 'Continuer')
+    pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR - 300, (125, 125, 125), 'Continuer')
     pass_button.apparition()
     while True:
         for event in pygame.event.get() :
@@ -147,7 +147,7 @@ def regle2(couleurtexte, couleur):
     text = font.render("Obstacle", True, (255, 0, 0))
     fenetre.blit(text, dest=(810, 560))
     pygame.display.update()
-    pass_button = bouton(170, 300, LARGEUR - 500, HAUTEUR - 250, (50, 100, 200), 'Continuer')
+    pass_button = bouton(170, 300, LARGEUR - 500, HAUTEUR - 250, (125, 125, 125), 'Continuer')
     pass_button.apparition()
     while True:
         for event in pygame.event.get() :
@@ -188,7 +188,7 @@ def regle3():
     text = font.render("-Attention, en montant la difficulté, vous commencez la partie avec moins de vies !", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 520))
     pygame.display.update()
-    pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR - 200, (50, 100, 200), 'Continuer')
+    pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR - 200, (125, 125, 125), 'Continuer')
     pass_button.apparition()
     while True:
         for event in pygame.event.get() :
@@ -227,7 +227,7 @@ def regle4():
     text = font.render("-En montant la difficulté, la balle bouge plus vite", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 480))
     pygame.display.update()
-    pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR - 250, (50, 100, 200), 'Continuer')
+    pass_button = bouton(170, 300, LARGEUR/2 -150, HAUTEUR - 250, (125, 125, 125), 'Continuer')
     pass_button.apparition()
     while True:
         for event in pygame.event.get() :
@@ -268,10 +268,10 @@ def regle5(couleur):
     fenetre.blit(text, dest=(20, 540))
     text = font.render("-Le rond noir sur votre balle est votre viseur, il indique dans quelle direction partent vos tirs", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 300))
-    text = font.render("-Attention !!! En montant la difficulté, les autres balles se mettent à tirer elles aussi, ont plus de vies, et les tirs vont plus vite !", True, (255, 0, 0))
+    text = font.render("-Attention !!! En montant la difficulté, les autres balles se mettent à tirer elles aussi !", True, (255, 0, 0))
     fenetre.blit(text, dest=(20, 600))
     pygame.display.update()
-    pass_button = bouton(140, 300, LARGEUR/2 -150, HAUTEUR - 150, (50, 100, 200), 'Continuer')
+    pass_button = bouton(140, 300, LARGEUR/2 -150, HAUTEUR - 150, (125, 125, 125), 'Continuer')
     pass_button.apparition()
     while True:
         for event in pygame.event.get() :
