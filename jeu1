@@ -98,4 +98,4 @@ def mangeballe(couleur, nbrballes = 10):
                 sys.exit()
                 
         time.sleep(PAUSE)
-    return victoire()
+    return victoire(nbrballes//10 + 1)
