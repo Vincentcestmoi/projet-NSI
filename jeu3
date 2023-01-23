@@ -7,12 +7,12 @@ from annexe import *
 
 def casse_brique(couleur, difficulte = 0):
     pygame.init()
-    pygame.key.set_repeat(10)
+    pygame.key.set_repeat(11)
 
     impact = pygame.font.SysFont('Impact', 60)
 
     pygame.display.set_caption("Test_Jeux")
-    fenetre = pygame.display.set_mode((1500, 1000), RESIZABLE)
+    fenetre = pygame.display.set_mode((1500, 1000))
     position_fenetre = fenetre.get_rect()
 
     mode = [1]
@@ -28,7 +28,7 @@ def casse_brique(couleur, difficulte = 0):
            
             
         def apparition(self): 
-            pygame.draw.rect(fenetre, self.couleur, (self.x, self.y, self.longueur, self.hauteur), )
+            pygame.draw.rect(fenetre, self.couleur, (self.x, self.y, self.longueur, self.hauteur))
             
             
     liste_brique = []
@@ -46,9 +46,6 @@ def casse_brique(couleur, difficulte = 0):
     vie = [3-difficulte]
     
     def le_jeu(couleur, dx = dx[0], dy = dy[0]):
-        fenetre.fill([250, 250, 250])
-        pygame.draw.rect(fenetre, (0, 0, 0), (249, 0, 1, 1000))
-        pygame.draw.rect(fenetre, (0, 0, 0), (1215, 0, 1, 1000))
         text = impact.render("vie = ", True, (0,0,0))
         fenetre.blit(text, (50,100))
         text2 = impact.render(str(vie[0]), True, (0,0,0))
@@ -169,10 +166,10 @@ def casse_brique(couleur, difficulte = 0):
             time.sleep(0.5)
             
         if vie[0] == 0:
-            mode[0] = 2
+            return defaite()
         
         if liste_brique == []:
-            mode[0] = 3
+            return victoire(vie[0] * (difficulte*2 +1))
             
         
         pygame.display.flip()
@@ -183,11 +180,10 @@ def casse_brique(couleur, difficulte = 0):
                 sys.exit()
         
         pygame.display.flip()
-        
+    
+    fenetre.fill([250, 250, 250])
+    pygame.draw.rect(fenetre, (0, 0, 0), (249, 0, 1, 1000))
+    pygame.draw.rect(fenetre, (0, 0, 0), (1215, 0, 1, 1000))
     while True :
         if mode[0] == 1:
             le_jeu(couleur, dx, dy)
-        if mode[0] == 2:
-            return defaite()   
-        if mode[0] == 3:
-            return victoire(vie[0] * (difficulte*2 +1))
