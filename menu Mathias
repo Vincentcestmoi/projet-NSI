@@ -77,10 +77,10 @@ def mode_menu():
     text = font.render('Vous avez actuellement ' + str(point[0]) + ' points', True, (0, 0, 0))
     fenetre.blit(text, dest=(375, 160))
     if mode[1] != 0:
-        text = font.render("N'hésitez surtout pas à consulter les commandes et règles", True, couleur[0])
-        fenetre.blit(text, dest=(375, 420))
-        text = font.render("de " + niveau[0] + " dans 'options de jeu'", True, couleur[0])
-        fenetre.blit(text, dest=(373, 480))
+        text = font.render("N'hésitez surtout pas à consulter les commandes", True, couleur[0])
+        fenetre.blit(text, dest=(375, 430))
+        text = font.render("et règles de " + niveau[0] + " dans 'options de jeu'", True, couleur[0])
+        fenetre.blit(text, dest=(373, 490))
     
     for boutons in bouton_menu:
         boutons.adaptation_taille(hauteur[0], longueur[0])
