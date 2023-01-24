@@ -49,13 +49,14 @@ def casse_brique(couleur, difficulte = 0):
     pygame.draw.rect(fenetre, (0, 0, 0), (1215, 0, 1, 1000))
     text = impact.render("vie :", True, (0,0,0))
     fenetre.blit(text, (50,100))
-    for x in range(vie):
-        pygame.draw.rect(fenetre, (0, 0, 0), (140+20*x, 100, 10, 40))
+    text = impact.render(str(vie), True, (0,0,0))
+    fenetre.blit(text, (160,100))
+    for brique in liste_brique:
+        brique.apparition()
     
     while True:
         
-        for brique in liste_brique:
-            brique.apparition()
+
             
         barre_joueur = pygame.draw.rect(fenetre, (250, 250, 250), (x_barre[0], y_barre[0], 100 - 20*difficulte, 20)) #gomme la plate forme        
        
@@ -81,29 +82,17 @@ def casse_brique(couleur, difficulte = 0):
             dy = -dy
             
         for brique in liste_brique:
-            if brique.rectangle.collidepoint(x_balle[0] + 10, y_balle[0]): #collision balle/briques
-                dx = dx
+            if brique.rectangle.collidepoint(x_balle[0] + 10, y_balle[0]) or brique.rectangle.collidepoint(x_balle[0] - 10, y_balle[0]): #collision balle/briques horizontale
+                dx = -dx
+                pygame.draw.rect(fenetre, (250, 250, 250), (brique.x, brique.y, brique.longueur, brique.hauteur)) #gomme
+                liste_brique.remove(brique)
+                
+            elif brique.rectangle.collidepoint(x_balle[0], y_balle[0] + 10) or brique.rectangle.collidepoint(x_balle[0], y_balle[0] - 10): #collision balle/briques latterale
                 dy = -dy
                 pygame.draw.rect(fenetre, (250, 250, 250), (brique.x, brique.y, brique.longueur, brique.hauteur)) #gomme
                 liste_brique.remove(brique)
                 
-            elif brique.rectangle.collidepoint(x_balle[0] - 10, y_balle[0]):
-                dx = dx
-                dy = -dy
-                pygame.draw.rect(fenetre, (250, 250, 250), (brique.x, brique.y, brique.longueur, brique.hauteur)) #gomme
-                liste_brique.remove(brique)
-                
-            elif brique.rectangle.collidepoint(x_balle[0], y_balle[0] + 10):
-                dx = dx
-                dy = -dy
-                pygame.draw.rect(fenetre, (250, 250, 250), (brique.x, brique.y, brique.longueur, brique.hauteur)) #gomme
-                liste_brique.remove(brique)
-                
-            elif brique.rectangle.collidepoint(x_balle[0], y_balle[0] - 10):
-                dx = dx
-                dy = -dy
-                pygame.draw.rect(fenetre, (250, 250, 250), (brique.x, brique.y, brique.longueur, brique.hauteur)) #gomme
-                liste_brique.remove(brique)
+            
         
         if dx < 0:
             if dx > (-0.5):
@@ -114,7 +103,7 @@ def casse_brique(couleur, difficulte = 0):
             
         pygame.draw.circle(fenetre, (250, 250, 250), (x_balle[0],y_balle[0]), 15) #gomme
         
-        if barre_joueur.collidepoint(x_balle[0] + 10, y_balle[0]): # collison balle/plate forme
+        if barre_joueur.collidepoint(x_balle[0] + 10, y_balle[0]): #collison balle/plate forme
             if x_balle[0] > x_balle[1]:
                 dy = -dy
                 dx = (x_balle[0] - x_barre[0]) * 0.01 * dx
@@ -168,9 +157,10 @@ def casse_brique(couleur, difficulte = 0):
             x_balle[0] = x_barre[0] + 50
             y_balle[0] = 870
             pygame.draw.circle(fenetre ,couleur ,(x_balle[0],y_balle[0]),15) # dessine la balle
-            pygame.draw.rect(fenetre, (250, 250, 250), (140+20*(vie-1), 100, 10, 40)) # efface une vie
-            pygame.display.flip()
+            pygame.draw.circle(fenetre ,(250, 250, 250) ,(165, 115), 25) # gomme la vie
             vie -= 1
+            text = impact.render(str(vie), True, (0,0,0))
+            fenetre.blit(text, (160,100))
             dx = 2+difficulte
             dy = 2+difficulte
             time.sleep(0.5)
