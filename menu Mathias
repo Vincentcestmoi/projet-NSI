@@ -45,9 +45,9 @@ class bouton:
         self.rectangle = pygame.draw.rect(fenetre, self.couleur, (self.x, self.y, self.longueur, self.hauteur))
         self.multi_y = multi_y
         
-    def apparition(self): 
+    def apparition(self, color = (0, 0, 0)): 
         pygame.draw.rect(fenetre, self.couleur, (self.x, self.y, self.longueur, self.hauteur))
-        text = impact.render(self.texte, True, (0,0,0))
+        text = impact.render(self.texte, True, color)
         text_rect = text.get_rect(center=(self.x + self.longueur/2, self.y + self.hauteur/2))
         fenetre.blit(text, text_rect)
     
@@ -217,7 +217,7 @@ def mode_option():
     fenetre = pygame.display.set_mode((1500, 800), )
     fenetre.fill([250, 250, 250])
     bouton_level = []
-    regle_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Regles', 33)
+    regle_button = bouton(170, 300, 24, 24, (75, 25, 75), 'Regles', 33)
     bouton_level.append(regle_button)
     color_button = bouton(170, 300, 24, 218, couleur[0], 'Couleur', 3.669724771)
     bouton_level.append(color_button)
@@ -234,6 +234,7 @@ def mode_option():
     for boutons in bouton_level:
         boutons.adaptation_taille(hauteur[0], longueur[0])
         boutons.apparition()
+    regle_button.apparition((255, 50, 75))
         
     for event in pygame.event.get() :
         if event.type == pygame.VIDEORESIZE:
@@ -371,12 +372,14 @@ def mode_couleur():
 
 def mode_level():
     text = ''
-    fenetre = pygame.display.set_mode((1500, 800), )
+    fenetre = pygame.display.set_mode((1500, 800))
     fenetre.fill([250, 250, 250])
-    bouton_level = []
     font = pygame.font.Font(pygame.font.get_default_font(), 25)
+    bouton_level = []
+    text = font.render('Vous avez actuellement ' + str(point[0]) + ' points', True, (0, 0, 0))
+    fenetre.blit(text, dest=(375, 25))
     text = font.render(refuspoint[0], True, (240, 0, 0))
-    fenetre.blit(text, dest=(375, 180))
+    fenetre.blit(text, dest=(375, 200))
     easy_button = bouton(170, 300, 24, 24, (50, 100, 200), 'Normal', 33)
     bouton_level.append(easy_button)
     if point[0] > 9:
