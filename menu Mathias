@@ -76,6 +76,11 @@ def mode_menu():
     fenetre.blit(text, dest=(375, 40))
     text = font.render('Vous avez actuellement ' + str(point[0]) + ' points', True, (0, 0, 0))
     fenetre.blit(text, dest=(375, 160))
+    if mode[1] != 0:
+        text = font.render("N'hésitez surtout pas à consulter les commandes et règles", True, couleur[0])
+        fenetre.blit(text, dest=(375, 420))
+        text = font.render("de " + niveau[0] + " dans 'options de jeu'", True, couleur[0])
+        fenetre.blit(text, dest=(373, 480))
     
     for boutons in bouton_menu:
         boutons.adaptation_taille(hauteur[0], longueur[0])
@@ -461,6 +466,9 @@ def play():
         pass
     elif mode[1] == 5:
         point[0] += shoot(couleur[0], mode[2])*4 - 2*(mode[2] + 1)
+    
+    if point[0] < 0:
+        point[0] = 0
 
 def regle():
     mode[0] = 3
