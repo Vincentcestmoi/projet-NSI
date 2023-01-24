@@ -171,7 +171,7 @@ def regle3():
     text = font.render("REGLES :", True, (255, 0, 0))
     fenetre.blit(text, dest=(720, 20))
     font = pygame.font.Font(pygame.font.get_default_font(), 20)
-    text = font.render("-Vous incarnez une plateforme qui se déplace avec les touches Q et D", True, (0, 0, 0))
+    text = font.render("-Vous incarnez une plateforme qui se déplace avec les touches Q et D ou les fleches directionelles", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 100))
     text = font.render("-Le plafond est couvert de briques et une balle parcourt le terrain", True, (0, 0, 0))
     fenetre.blit(text, dest=(20, 160))
