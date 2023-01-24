@@ -31,12 +31,15 @@ class Balle:
             pygame.display.update()
 
 def teamball(couleur, difficulte):
+    couleur2 = (255, 0, 0)
+    if couleur == (255, 0, 0):
+        couleur2 = (125, 0, 0)
     multi_joueur = []
     multi_rouge = []
     obstacles = []
     reine_joueur = Balle(LARGEUR // 5, HAUTEUR // 2, couleur, 50)
     multi_joueur.append(reine_joueur)
-    reine_rouge = Balle((4*LARGEUR) // 5, HAUTEUR // 2, (255, 0, 0), 50)
+    reine_rouge = Balle((4*LARGEUR) // 5, HAUTEUR // 2, couleur2, 50)
     multi_rouge.append(reine_rouge)
     x = 0
     y = 0
@@ -48,7 +51,7 @@ def teamball(couleur, difficulte):
         multi_joueur.append(ballejoueur)
         x = reine_rouge.x + [-75, 0, 0, 75, 50, 50, -50, -50][i]
         y = reine_rouge.y + [0, 75, -75, 0, 50, -50, 50, -50][i]
-        ballerouge = Balle(x, y, (255, 0, 0), 10)
+        ballerouge = Balle(x, y, couleur2, 10)
         multi_rouge.append(ballerouge)
     for _ in range(10):
         balle = Balle(randint(LARGEUR//4, 3 * LARGEUR//4), randint(HAUTEUR//7, 6* HAUTEUR//7), (115, 115, 115), randint(8, 25))
@@ -66,7 +69,7 @@ def teamball(couleur, difficulte):
             a = randint(3 * LARGEUR//4, LARGEUR -25)
             b = randint(HAUTEUR//7, 6* HAUTEUR//7)
             if ((reine_joueur.x - a)**2 + (reine_joueur.y - b)**2)**0.5 > reine_joueur.rayon+25:
-                multi_rouge.append(Balle(a, b, (255, 0, 0), 10))
+                multi_rouge.append(Balle(a, b, couleur2, 10))
         if span % (50 + (10*difficulte)) == 0:
             c = randint(25, LARGEUR//4)
             d = randint(HAUTEUR//7, 6* HAUTEUR//7)
