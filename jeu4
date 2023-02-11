@@ -54,7 +54,7 @@ def teamball(couleur, difficulte):
         ballerouge = Balle(x, y, couleur2, 10)
         multi_rouge.append(ballerouge)
     for _ in range(10):
-        balle = Balle(randint(LARGEUR//4, 3 * LARGEUR//4), randint(HAUTEUR//7, 6* HAUTEUR//7), (115, 115, 115), randint(8, 25))
+        balle = Balle(randint(LARGEUR//4, 3 * LARGEUR//4), randint(HAUTEUR//7, 6* HAUTEUR//7), (110, 110, 110), randint(8, 25))
         obstacles.append(balle)
 
     pygame.display.init()
