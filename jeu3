@@ -7,15 +7,14 @@ from annexe import *
 
 def casse_brique(couleur, difficulte = 0):
     pygame.init()
-    pygame.key.set_repeat(11)
+    pygame.key.set_repeat(10)
 
     impact = pygame.font.SysFont('Impact', 60)
 
-    pygame.display.set_caption("Test_Jeux")
-    fenetre = pygame.display.set_mode((1500, 1000))
+    pygame.display.set_caption("Casse brique")
+    fenetre = pygame.display.set_mode((1500, 800))
     position_fenetre = fenetre.get_rect()
 
-    mode = [1]
 
     class Brique:
         def __init__(self, hauteur, longueur, x, y, couleur):
@@ -37,12 +36,12 @@ def casse_brique(couleur, difficulte = 0):
         liste_brique.append(brique)
 
     x_barre = [700]
-    y_barre = [900]
+    y_barre = [700]
     x_balle = [750, 750]
-    y_balle = [870]
+    y_balle = [670]
     pas_deplacement = 7 
-    dx = 2+difficulte
-    dy = 2+difficulte
+    dx = 1+difficulte
+    dy = 1+difficulte
     vie = 3-difficulte
     fenetre.fill([250, 250, 250])
     pygame.draw.rect(fenetre, (0, 0, 0), (249, 0, 1, 1000))
@@ -153,16 +152,16 @@ def casse_brique(couleur, difficulte = 0):
         pygame.draw.rect(fenetre, (0, 0, 0), (249, 0, 1, 1000)) # dessine les bordures
         pygame.draw.rect(fenetre, (0, 0, 0), (1215, 0, 1, 1000))
         
-        if y_balle[0] - 18 > 1000: #sortie du cadre
+        if y_balle[0] - 18 > 800: #sortie du cadre
             x_balle[0] = x_barre[0] + 50
-            y_balle[0] = 870
+            y_balle[0] = 670
             pygame.draw.circle(fenetre ,couleur ,(x_balle[0],y_balle[0]),15) # dessine la balle
-            pygame.draw.circle(fenetre ,(250, 250, 250) ,(165, 115), 25) # gomme la vie
+            pygame.draw.rect(fenetre, (250, 250, 250), (160, 110, 40, 55)) # gomme la vie
             vie -= 1
             text = impact.render(str(vie), True, (0,0,0))
             fenetre.blit(text, (160,100))
-            dx = 2+difficulte
-            dy = 2+difficulte
+            dx = 1+difficulte
+            dy = 1+difficulte
             time.sleep(0.5)
             
         if vie == 0:
