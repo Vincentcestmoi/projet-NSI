@@ -143,7 +143,7 @@ def regle2(couleurtexte, couleur):
     pygame.draw.circle(fenetre, (255, 0, 0), (700, 600), 10)
     text = font.render("Soldat", True, (0, 0, 0))
     fenetre.blit(text, dest=(670, 560))
-    pygame.draw.circle(fenetre, (125, 125, 125), (850, 600), 15)
+    pygame.draw.circle(fenetre, (110, 110, 110), (850, 600), 15)
     text = font.render("Obstacle", True, (255, 0, 0))
     fenetre.blit(text, dest=(810, 560))
     pygame.display.update()
