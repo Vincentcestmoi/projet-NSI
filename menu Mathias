@@ -51,7 +51,7 @@ class bouton:
         text_rect = text.get_rect(center=(self.x + self.longueur/2, self.y + self.hauteur/2))
         fenetre.blit(text, text_rect)
     
-    def adaptation_taille(self, new_hauteur, new_longueur):
+    def adaptation_taille(self, new_hauteur, new_longueur): #useless
         self.y = new_hauteur / self.multi_y
         self.longueur = new_longueur / 5
         self.hauteur = new_hauteur / 4.705882353
